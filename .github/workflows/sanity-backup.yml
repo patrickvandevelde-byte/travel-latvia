@@ -1,0 +1,31 @@
+name: Sanity backup
+
+# Weekly export of the production dataset (NFR-10, MKT-20).
+# Needs repository secrets SANITY_PROJECT_ID and SANITY_BACKUP_TOKEN (viewer token).
+on:
+  schedule:
+    - cron: "17 2 * * 1"
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    if: ${{ vars.SANITY_BACKUP_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Export dataset
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_BACKUP_TOKEN }}
+        run: pnpm exec sanity dataset export production "backup-$(date +%F).tar.gz"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sanity-backup
+          path: backup-*.tar.gz
+          retention-days: 90

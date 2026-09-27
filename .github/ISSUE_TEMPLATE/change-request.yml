@@ -1,0 +1,34 @@
+name: Website change request
+description: Ask for something the content studio can't do yet. Plain language is fine.
+labels: ["change-request"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What do you need?
+      description: Describe the change as you would to a colleague.
+      placeholder: "Example: a map section showing all meeting points on the Rīga page."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: What should visitors or you be able to do afterwards?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where on the site?
+      placeholder: "Link to the page, or 'everywhere'"
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: How urgent is it?
+      options:
+        - "Whenever possible"
+        - "Within two weeks"
+        - "Urgent: something is broken"
+    validations:
+      required: true

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommitsDisabled"],
+  "timezone": "Europe/Riga",
+  "schedule": ["before 6am on monday"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "Patch updates merge themselves when CI is green (ADR-014)",
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "Keep Sanity packages in step",
+      "matchPackageNames": ["sanity", "@sanity/**", "next-sanity"],
+      "groupName": "sanity"
+    },
+    {
+      "description": "Keep Next.js and React in step",
+      "matchPackageNames": ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "next and react"
+    }
+  ],
+  "vulnerabilityAlerts": { "labels": ["security"], "automerge": true }
+}
