@@ -12,7 +12,7 @@ type Props = {
 
 export function SanityImage({ image, width, height, className, sizes, priority }: Props) {
   const src = imageUrl(image, width, height);
-  if (!src) return <div className={`bg-sand ${className ?? ""}`} aria-hidden="true" />;
+  if (!src) return <div className={`bg-cream-deep ${className ?? ""}`} aria-hidden="true" />;
   return (
     <Image
       src={src}

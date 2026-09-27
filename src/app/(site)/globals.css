@@ -1,25 +1,128 @@
 @import "tailwindcss";
 
-/* Placeholder "Baltic Light" tokens (docs/04-design.md §6); replaced by brand tokens in Phase 1. */
+/*
+  Baltique brand tokens, sampled from the Canva mockup (docs/10-baltique-briefing-spec.md §3).
+  Cream page, deep red headings and outlines, forest green for the primary action and script accents.
+*/
 :root {
-  --color-ink: #1b2430;
-  --color-forest: #1f4d3a;
-  --color-sea: #2f6e8e;
-  --color-linen: #f5f1e8;
-  --color-sand: #e8dfcc;
+  --color-cream: #fef7ef;
+  --color-cream-deep: #f6ebdd;
+  --color-red: #bd020a;
+  --color-red-dark: #8f0107;
+  --color-forest: #2f4a2a;
+  --color-forest-dark: #223620;
+  --color-ink: #2b2420;
+  --color-ink-soft: #5e534c;
+  --color-line: #e6d9c9;
 }
 
 @theme inline {
-  --color-ink: var(--color-ink);
+  --color-cream: var(--color-cream);
+  --color-cream-deep: var(--color-cream-deep);
+  --color-red: var(--color-red);
+  --color-red-dark: var(--color-red-dark);
   --color-forest: var(--color-forest);
-  --color-sea: var(--color-sea);
-  --color-linen: var(--color-linen);
-  --color-sand: var(--color-sand);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --color-forest-dark: var(--color-forest-dark);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-line: var(--color-line);
+  --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-script: var(--font-caveat), "Segoe Script", cursive;
+  --radius-panel: 28px;
+  --radius-media: 18px;
 }
 
 body {
-  background: var(--color-linen);
+  background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+/* Display headings: condensed serif, red, tight leading (mockup h1/h2). */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.02;
+  color: var(--color-red);
+  text-wrap: balance;
+}
+
+/* Handwritten accent ("discover the undiscovered"), slightly rotated like the mockup. */
+.script {
+  font-family: var(--font-script);
+  font-weight: 500;
+  color: var(--color-forest);
+  line-height: 1;
+  display: inline-block;
+  transform: rotate(-6deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .script {
+    transform: none;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-red);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--color-red);
+  background: transparent;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.btn:hover {
+  background: var(--color-red);
+  color: #fff;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+}
+.btn-solid {
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+  color: #fff;
+}
+.btn-solid:hover {
+  background: var(--color-forest-dark);
+  border-color: var(--color-forest-dark);
+}
+.btn-light {
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.field-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--color-red);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--color-ink);
+  font-size: 15px;
+}
+.field-input:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 2px;
+}
+
+.prose-columns {
+  columns: 2;
+  column-gap: 48px;
+}
+@media (max-width: 760px) {
+  .prose-columns {
+    columns: 1;
+  }
 }

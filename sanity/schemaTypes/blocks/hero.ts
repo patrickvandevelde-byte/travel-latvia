@@ -14,6 +14,7 @@ export const heroBlock = defineType({
       type: "string",
       options: {
         list: [
+          { title: "Brand: logo name, tagline and photo (home)", value: "brand" },
           { title: "Full-width image", value: "image" },
           { title: "Image beside text", value: "split" },
           { title: "Text only", value: "minimal" },
@@ -30,7 +31,28 @@ export const heroBlock = defineType({
       description: 'Optional. Example: "Summer 2027".',
       validation: (r) => r.max(40),
     }),
-    defineField({ name: "headline", title: "Headline", type: "string", validation: (r) => r.required().max(90) }),
+    defineField({
+      name: "headline",
+      title: "Headline",
+      type: "string",
+      description: 'For the brand layout this is the name shown large, e.g. "Baltique".',
+      validation: (r) => r.required().max(90),
+    }),
+    defineField({
+      name: "script",
+      title: "Handwritten tagline",
+      type: "string",
+      description: 'Example: "discover the undiscovered".',
+      validation: (r) => r.max(40),
+    }),
+    defineField({
+      name: "tag",
+      title: "Pill text",
+      type: "string",
+      description: 'Small pill at the bottom, e.g. "Bespoke boutique journeys in the Baltics".',
+      hidden: ({ parent }) => parent?.variant !== "brand",
+      validation: (r) => r.max(60),
+    }),
     defineField({ name: "intro", title: "Intro text", type: "text", rows: 3, validation: (r) => r.max(240) }),
     defineField({
       name: "image",

@@ -36,9 +36,24 @@ const destinationCard = /* groq */ `{
   "image": heroImage${image}
 }`;
 
-const sections = /* groq */ `sections[]{
+const guideCard = /* groq */ `{
+  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage${image}
+}`;
+
+const sectionProjection = /* groq */ `{
   ...,
   _type == "heroBlock" => { image${image}, actions[]${link} },
+  _type == "featureBlock" => { image${image}, action${link} },
+  _type == "pageHeroBlock" => { image${image}, action${link} },
+  _type == "polaroidsBlock" => { images[]${image} },
+  _type == "guideListBlock" => {
+    ctaLink${link},
+    ctaImage${image},
+    "items": select(
+      mode == "manual" => guides[]->${guideCard},
+      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]${guideCard}
+    )
+  },
   _type == "ctaBandBlock" => { action${link} },
   _type == "galleryBlock" => { images[]${image} },
   _type == "videoBlock" => { poster${image} },
@@ -51,17 +66,25 @@ const sections = /* groq */ `sections[]{
   }
 }`;
 
+const sections = /* groq */ `sections[]${sectionProjection}`;
+
 const seo = /* groq */ `seo{ title, description, noIndex, image${image} }`;
 
 export const settingsQuery = defineQuery(`*[_id == "siteSettings"][0]{
   siteName,
   tagline,
+  scriptTagline,
+  founderName,
   logo${image},
   mainMenu[]${link},
   headerCta${link},
+  footerHeadline,
+  footerImage${image},
   footerColumns[]{ title, links[]${link} },
+  legalLinks[]${link},
   email,
   phone,
+  whatsapp,
   social,
   company,
   defaultSeo{ title, description, image${image} }
@@ -135,9 +158,15 @@ export const experienceQuery = defineQuery(`*[_type == "experience" && slug.curr
   ${seo}
 }`);
 
-export const guidesQuery = defineQuery(`*[_type == "guide" && defined(slug.current)] | order(publishedAt desc){
-  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage${image}
-}`);
+export const guidesQuery = defineQuery(
+  `*[_type == "guide" && defined(slug.current)] | order(publishedAt desc)${guideCard}`,
+);
+
+export const guidesPageQuery = defineQuery(`*[_id == "guidesPage"][0]{ title, ${sections}, ${seo} }`);
+
+export const enquiryTargetQuery = defineQuery(
+  `*[_id == "siteSettings"][0]{ siteName, email, enquiryNotificationEmail }`,
+);
 
 export const guideQuery = defineQuery(`*[_type == "guide" && slug.current == $slug][0]{
   _id,
@@ -147,19 +176,8 @@ export const guideQuery = defineQuery(`*[_type == "guide" && slug.current == $sl
   heroImage${image},
   "category": category->title,
   "author": author->{ name, bio, photo${image} },
-  "sections": body[]{
-    ...,
-    _type == "ctaBandBlock" => { action${link} },
-    _type == "galleryBlock" => { images[]${image} },
-    _type == "videoBlock" => { poster${image} },
-    _type == "experienceGridBlock" => {
-      "items": select(
-        mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]${experienceCard},
-        experiences[]->${experienceCard}
-      )
-    }
-  },
-  "related": related[]->{ _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage${image} },
+  "sections": body[]${sectionProjection},
+  "related": related[]->${guideCard},
   ${seo}
 }`);
 

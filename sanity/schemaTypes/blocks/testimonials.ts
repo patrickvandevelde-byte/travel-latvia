@@ -8,7 +8,20 @@ export const testimonialsBlock = defineType({
   icon: CommentIcon,
   description: "Quotes from real travellers. Only use genuine reviews you have permission to publish.",
   fields: [
-    defineField({ name: "heading", title: "Heading", type: "string", validation: (r) => r.max(80) }),
+    defineField({
+      name: "heading",
+      title: "Heading",
+      type: "string",
+      initialValue: "Reviews",
+      validation: (r) => r.max(80),
+    }),
+    defineField({
+      name: "script",
+      title: "Handwritten line next to the heading",
+      type: "string",
+      description: 'Example: "don\'t just believe us".',
+      validation: (r) => r.max(40),
+    }),
     defineField({
       name: "items",
       title: "Quotes",

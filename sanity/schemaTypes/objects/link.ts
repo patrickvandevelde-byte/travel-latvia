@@ -3,6 +3,7 @@ import { defineField, defineType } from "sanity";
 
 export const linkableTypes = [
   { type: "homePage" },
+  { type: "guidesPage" },
   { type: "page" },
   { type: "region" },
   { type: "place" },

@@ -1,9 +1,14 @@
 import { ctaBandBlock } from "./ctaBand";
 import { destinationCardsBlock } from "./destinationCards";
+import { enquiryFormBlock } from "./enquiryForm";
 import { experienceGridBlock } from "./experienceGrid";
 import { faqBlock } from "./faq";
+import { featureBlock } from "./feature";
 import { galleryBlock } from "./gallery";
+import { guideListBlock } from "./guideList";
 import { heroBlock } from "./hero";
+import { pageHeroBlock } from "./pageHero";
+import { polaroidsBlock } from "./polaroids";
 import { richTextBlock } from "./richText";
 import { spacerBlock } from "./spacer";
 import { statsBlock } from "./stats";
@@ -11,13 +16,18 @@ import { testimonialsBlock } from "./testimonials";
 import { videoBlock } from "./video";
 
 /**
- * Page-builder block library (MKT-02, docs/08 §5). Still to add once their
- * dependencies are decided: productRail (ADR-003), map (Mapbox account),
- * form (MKT-14 / Q-D4), countdown (MKT-08).
+ * Page-builder block library (MKT-02, docs/08 §5), extended with the sections
+ * from the Baltique mockup (docs/10). Still to add once their dependencies are
+ * decided: map (Mapbox account), countdown (MKT-08).
  */
 export const blocks = [
   heroBlock,
+  pageHeroBlock,
+  featureBlock,
   richTextBlock,
+  enquiryFormBlock,
+  guideListBlock,
+  polaroidsBlock,
   experienceGridBlock,
   destinationCardsBlock,
   ctaBandBlock,

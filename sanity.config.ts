@@ -5,7 +5,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { withAutomaticRedirect } from "./sanity/actions/publishWithRedirect";
 import { apiVersion, dataset, projectId, studioBasePath } from "./sanity/env";
-import { schemaTypes, singletonTypes } from "./sanity/schemaTypes";
+import { schemaTypes, singletonTypes, systemTypes } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 import { helpTool } from "./sanity/tools/HelpTool";
 
@@ -20,7 +20,8 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     // Singletons can't be created from the "+" menu.
-    templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
+    templates: (templates) =>
+      templates.filter(({ schemaType }) => !singletonTypes.has(schemaType) && !systemTypes.has(schemaType)),
   },
   document: {
     actions: (actions, { schemaType }) => {
@@ -33,7 +34,9 @@ export default defineConfig({
       return actions;
     },
     newDocumentOptions: (items, { creationContext }) =>
-      creationContext.type === "global" ? items.filter((i) => !singletonTypes.has(i.templateId)) : items,
+      creationContext.type === "global"
+        ? items.filter((i) => !singletonTypes.has(i.templateId) && !systemTypes.has(i.templateId))
+        : items,
   },
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
   tools: (prev, { currentUser }) => {

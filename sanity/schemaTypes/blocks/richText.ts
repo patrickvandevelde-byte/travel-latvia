@@ -16,6 +16,7 @@ export const richTextBlock = defineType({
         list: [
           { title: "Narrow (easy reading)", value: "narrow" },
           { title: "Wide", value: "wide" },
+          { title: "Two columns", value: "columns" },
         ],
         layout: "radio",
       },

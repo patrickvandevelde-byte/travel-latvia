@@ -21,6 +21,25 @@ type ArrayOf<T> = Array<
 >;
 
 // Source: sanity/schema.json
+export type Enquiry = {
+  _id: string;
+  _type: "enquiry";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  status?: "new" | "replied" | "quoted" | "won" | "lost";
+  notes?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  period?: string;
+  tripType?: string;
+  wishes?: string;
+  locale?: string;
+  sourcePath?: string;
+  receivedAt?: string;
+};
+
 export type Redirect = {
   _id: string;
   _type: "redirect";
@@ -51,6 +70,13 @@ export type HomePageReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "homePage";
+};
+
+export type GuidesPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "guidesPage";
 };
 
 export type PageReference = {
@@ -94,6 +120,7 @@ export type Link = {
   kind?: "internal" | "external";
   internal?:
     | HomePageReference
+    | GuidesPageReference
     | PageReference
     | RegionReference
     | PlaceReference
@@ -110,6 +137,8 @@ export type SiteSettings = {
   _rev: string;
   siteName?: string;
   tagline?: string;
+  scriptTagline?: string;
+  founderName?: string;
   logo?: AccessibleImage;
   mainMenu?: Array<
     {
@@ -127,16 +156,19 @@ export type SiteSettings = {
     _type: "footerColumn";
     _key: string;
   }>;
+  footerHeadline?: string;
+  footerImage?: AccessibleImage;
+  legalLinks?: Array<
+    {
+      _key: string;
+    } & Link
+  >;
+  whatsapp?: string;
+  enquiryNotificationEmail?: string;
   email?: string;
   phone?: string;
   social?: Array<{
-    network?:
-      | "Instagram"
-      | "Facebook"
-      | "TikTok"
-      | "YouTube"
-      | "LinkedIn"
-      | "Pinterest";
+    network?: "Instagram" | "Facebook" | "TikTok" | "YouTube" | "LinkedIn" | "Pinterest" | "WhatsApp";
     url?: string;
     _type: "socialLink";
     _key: string;
@@ -212,6 +244,7 @@ export type FaqBlock = {
 export type TestimonialsBlock = {
   _type: "testimonialsBlock";
   heading?: string;
+  script?: string;
   items?: Array<{
     quote?: string;
     author?: string;
@@ -259,17 +292,77 @@ export type ExperienceGridBlock = {
   limit?: number;
 };
 
+export type PolaroidsBlock = {
+  _type: "polaroidsBlock";
+  images?: Array<
+    {
+      _key: string;
+    } & AccessibleImage
+  >;
+};
+
+export type GuideListBlock = {
+  _type: "guideListBlock";
+  heading?: string;
+  variant?: "carousel" | "grid";
+  mode?: "latest" | "manual";
+  guides?: Array<
+    {
+      _key: string;
+    } & GuideReference
+  >;
+  limit?: number;
+  ctaText?: string;
+  ctaLink?: Link;
+  ctaImage?: AccessibleImage;
+};
+
+export type EnquiryFormBlock = {
+  _type: "enquiryFormBlock";
+  heading?: string;
+  intro?: PortableText;
+  script?: string;
+  tripTypes?: Array<string>;
+  submitLabel?: string;
+  note?: string;
+  successMessage?: string;
+};
+
 export type RichTextBlock = {
   _type: "richTextBlock";
-  variant?: "narrow" | "wide";
+  variant?: "narrow" | "wide" | "columns";
   body?: PortableText;
+};
+
+export type FeatureBlock = {
+  _type: "featureBlock";
+  heading?: string;
+  title?: string;
+  body?: PortableText;
+  image?: AccessibleImage;
+  label?: string;
+  imagePosition?: "right" | "left";
+  imageShape?: "wide" | "tall";
+  action?: Link;
+};
+
+export type PageHeroBlock = {
+  _type: "pageHeroBlock";
+  title?: string;
+  script?: string;
+  variant?: "text" | "card";
+  image?: AccessibleImage;
+  cardBody?: PortableText;
+  action?: Link;
 };
 
 export type HeroBlock = {
   _type: "heroBlock";
-  variant?: "image" | "split" | "minimal";
+  variant?: "brand" | "image" | "split" | "minimal";
   eyebrow?: string;
   headline?: string;
+  script?: string;
+  tag?: string;
   intro?: string;
   image?: AccessibleImage;
   actions?: Array<
@@ -534,7 +627,82 @@ export type Page = {
       } & HeroBlock)
     | ({
         _key: string;
+      } & PageHeroBlock)
+    | ({
+        _key: string;
+      } & FeatureBlock)
+    | ({
+        _key: string;
       } & RichTextBlock)
+    | ({
+        _key: string;
+      } & EnquiryFormBlock)
+    | ({
+        _key: string;
+      } & GuideListBlock)
+    | ({
+        _key: string;
+      } & PolaroidsBlock)
+    | ({
+        _key: string;
+      } & ExperienceGridBlock)
+    | ({
+        _key: string;
+      } & DestinationCardsBlock)
+    | ({
+        _key: string;
+      } & CtaBandBlock)
+    | ({
+        _key: string;
+      } & GalleryBlock)
+    | ({
+        _key: string;
+      } & TestimonialsBlock)
+    | ({
+        _key: string;
+      } & FaqBlock)
+    | ({
+        _key: string;
+      } & StatsBlock)
+    | ({
+        _key: string;
+      } & VideoBlock)
+    | ({
+        _key: string;
+      } & SpacerBlock)
+  >;
+  seo?: Seo;
+};
+
+export type GuidesPage = {
+  _id: string;
+  _type: "guidesPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  sections?: Array<
+    | ({
+        _key: string;
+      } & HeroBlock)
+    | ({
+        _key: string;
+      } & PageHeroBlock)
+    | ({
+        _key: string;
+      } & FeatureBlock)
+    | ({
+        _key: string;
+      } & RichTextBlock)
+    | ({
+        _key: string;
+      } & EnquiryFormBlock)
+    | ({
+        _key: string;
+      } & GuideListBlock)
+    | ({
+        _key: string;
+      } & PolaroidsBlock)
     | ({
         _key: string;
       } & ExperienceGridBlock)
@@ -579,7 +747,22 @@ export type HomePage = {
       } & HeroBlock)
     | ({
         _key: string;
+      } & PageHeroBlock)
+    | ({
+        _key: string;
+      } & FeatureBlock)
+    | ({
+        _key: string;
       } & RichTextBlock)
+    | ({
+        _key: string;
+      } & EnquiryFormBlock)
+    | ({
+        _key: string;
+      } & GuideListBlock)
+    | ({
+        _key: string;
+      } & PolaroidsBlock)
     | ({
         _key: string;
       } & ExperienceGridBlock)
@@ -718,9 +901,11 @@ export type SanityImageAsset = {
 };
 
 export type AllSanitySchemaTypes =
+  | Enquiry
   | Redirect
   | Announcement
   | HomePageReference
+  | GuidesPageReference
   | PageReference
   | RegionReference
   | PlaceReference
@@ -740,7 +925,12 @@ export type AllSanitySchemaTypes =
   | CtaBandBlock
   | DestinationCardsBlock
   | ExperienceGridBlock
+  | PolaroidsBlock
+  | GuideListBlock
+  | EnquiryFormBlock
   | RichTextBlock
+  | FeatureBlock
+  | PageHeroBlock
   | HeroBlock
   | FaqItem
   | PortableText
@@ -757,6 +947,7 @@ export type AllSanitySchemaTypes =
   | Place
   | Region
   | Page
+  | GuidesPage
   | HomePage
   | SanityImageCrop
   | SanityImageHotspot
@@ -770,17 +961,42 @@ export type AllSanitySchemaTypes =
 
 // Source: src/modules/content/queries.ts
 // Variable: settingsQuery
-// Query: *[_id == "siteSettings"][0]{  siteName,  tagline,  logo{ asset, hotspot, crop, alt, credit },  mainMenu[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},  headerCta{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},  footerColumns[]{ title, links[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  email,  phone,  social,  company,  defaultSeo{ title, description, image{ asset, hotspot, crop, alt, credit } }}
+// Query: *[_id == "siteSettings"][0]{  siteName,  tagline,  scriptTagline,  founderName,  logo{ asset, hotspot, crop, alt, credit },  mainMenu[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},  headerCta{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},  footerHeadline,  footerImage{ asset, hotspot, crop, alt, credit },  footerColumns[]{ title, links[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  legalLinks[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},  email,  phone,  whatsapp,  social,  company,  defaultSeo{ title, description, image{ asset, hotspot, crop, alt, credit } }}
 export type SettingsQueryResult =
   | {
       siteName: null;
       tagline: null;
+      scriptTagline: null;
+      founderName: null;
       logo: null;
       mainMenu: null;
       headerCta: null;
+      footerHeadline: null;
+      footerImage: null;
       footerColumns: null;
+      legalLinks: null;
       email: null;
       phone: null;
+      whatsapp: null;
+      social: null;
+      company: null;
+      defaultSeo: null;
+    }
+  | {
+      siteName: null;
+      tagline: null;
+      scriptTagline: null;
+      founderName: null;
+      logo: null;
+      mainMenu: null;
+      headerCta: null;
+      footerHeadline: null;
+      footerImage: null;
+      footerColumns: null;
+      legalLinks: null;
+      email: string | null;
+      phone: string | null;
+      whatsapp: null;
       social: null;
       company: null;
       defaultSeo: null;
@@ -788,6 +1004,8 @@ export type SettingsQueryResult =
   | {
       siteName: string | null;
       tagline: string | null;
+      scriptTagline: string | null;
+      founderName: string | null;
       logo: {
         asset: SanityImageAssetReference | null;
         hotspot: SanityImageHotspot | null;
@@ -808,6 +1026,11 @@ export type SettingsQueryResult =
           | {
               _type: "guide";
               slug: string | null;
+              regionSlug: null;
+            }
+          | {
+              _type: "guidesPage";
+              slug: null;
               regionSlug: null;
             }
           | {
@@ -848,6 +1071,11 @@ export type SettingsQueryResult =
               regionSlug: null;
             }
           | {
+              _type: "guidesPage";
+              slug: null;
+              regionSlug: null;
+            }
+          | {
               _type: "homePage";
               slug: null;
               regionSlug: null;
@@ -869,6 +1097,14 @@ export type SettingsQueryResult =
             }
           | null;
       } | null;
+      footerHeadline: string | null;
+      footerImage: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        alt: string | null;
+        credit: string | null;
+      } | null;
       footerColumns: Array<{
         title: string | null;
         links: Array<{
@@ -884,6 +1120,11 @@ export type SettingsQueryResult =
             | {
                 _type: "guide";
                 slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
                 regionSlug: null;
               }
             | {
@@ -909,16 +1150,53 @@ export type SettingsQueryResult =
             | null;
         }> | null;
       }> | null;
+      legalLinks: Array<{
+        label: string | null;
+        kind: "external" | "internal" | null;
+        external: string | null;
+        internal:
+          | {
+              _type: "experience";
+              slug: string | null;
+              regionSlug: string | null;
+            }
+          | {
+              _type: "guide";
+              slug: string | null;
+              regionSlug: null;
+            }
+          | {
+              _type: "guidesPage";
+              slug: null;
+              regionSlug: null;
+            }
+          | {
+              _type: "homePage";
+              slug: null;
+              regionSlug: null;
+            }
+          | {
+              _type: "page";
+              slug: string | null;
+              regionSlug: null;
+            }
+          | {
+              _type: "place";
+              slug: string | null;
+              regionSlug: string | null;
+            }
+          | {
+              _type: "region";
+              slug: string | null;
+              regionSlug: null;
+            }
+          | null;
+      }> | null;
       email: string | null;
       phone: string | null;
+      whatsapp: string | null;
       social: Array<{
-        network?:
-          | "Facebook"
-          | "Instagram"
-          | "LinkedIn"
-          | "Pinterest"
-          | "TikTok"
-          | "YouTube";
+        network?: "Facebook" | "Instagram" | "LinkedIn" | "Pinterest" | "TikTok" | "WhatsApp" | "YouTube";
         url?: string;
         _type: "socialLink";
         _key: string;
@@ -965,6 +1243,11 @@ export type AnnouncementQueryResult = {
           regionSlug: null;
         }
       | {
+          _type: "guidesPage";
+          slug: null;
+          regionSlug: null;
+        }
+      | {
           _type: "homePage";
           slug: null;
           regionSlug: null;
@@ -990,7 +1273,7 @@ export type AnnouncementQueryResult = {
 
 // Source: src/modules/content/queries.ts
 // Variable: homePageQuery
-// Query: *[_id == "homePage"][0]{ sections[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }
+// Query: *[_id == "homePage"][0]{ sections[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "guideListBlock" => {    ctaLink{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},    ctaImage{ asset, hotspot, crop, alt, credit },    "items": select(      mode == "manual" => guides[]->{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }},      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }}    )  },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }
 export type HomePageQueryResult =
   | {
       sections: null;
@@ -1032,6 +1315,11 @@ export type HomePageQueryResult =
                 | {
                     _type: "guide";
                     slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
                     regionSlug: null;
                   }
                 | {
@@ -1096,6 +1384,17 @@ export type HomePageQueryResult =
           }
         | {
             _key: string;
+            _type: "enquiryFormBlock";
+            heading?: string;
+            intro?: PortableText;
+            script?: string;
+            tripTypes?: Array<string>;
+            submitLabel?: string;
+            note?: string;
+            successMessage?: string;
+          }
+        | {
+            _key: string;
             _type: "experienceGridBlock";
             heading?: string;
             variant?: "carousel" | "grid";
@@ -1137,6 +1436,65 @@ export type HomePageQueryResult =
           }
         | {
             _key: string;
+            _type: "featureBlock";
+            heading?: string;
+            title?: string;
+            body?: PortableText;
+            image: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            label?: string;
+            imagePosition?: "left" | "right";
+            imageShape?: "tall" | "wide";
+            action: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+          }
+        | {
+            _key: string;
             _type: "galleryBlock";
             heading?: string;
             images: Array<{
@@ -1149,10 +1507,90 @@ export type HomePageQueryResult =
           }
         | {
             _key: string;
+            _type: "guideListBlock";
+            heading?: string;
+            variant?: "carousel" | "grid";
+            mode?: "latest" | "manual";
+            guides?: Array<
+              {
+                _key: string;
+              } & GuideReference
+            >;
+            limit?: number;
+            ctaText?: string;
+            ctaLink: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+            ctaImage: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            items: Array<{
+              _id: string;
+              title: string | null;
+              slug: string | null;
+              excerpt: string | null;
+              publishedAt: string | null;
+              category: string | null;
+              image: {
+                asset: SanityImageAssetReference | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+                alt: string | null;
+                credit: string | null;
+              } | null;
+            }> | null;
+          }
+        | {
+            _key: string;
             _type: "heroBlock";
-            variant?: "image" | "minimal" | "split";
+            variant?: "brand" | "image" | "minimal" | "split";
             eyebrow?: string;
             headline?: string;
+            script?: string;
+            tag?: string;
             intro?: string;
             image: {
               asset: SanityImageAssetReference | null;
@@ -1174,6 +1612,11 @@ export type HomePageQueryResult =
                 | {
                     _type: "guide";
                     slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
                     regionSlug: null;
                   }
                 | {
@@ -1201,8 +1644,76 @@ export type HomePageQueryResult =
           }
         | {
             _key: string;
+            _type: "pageHeroBlock";
+            title?: string;
+            script?: string;
+            variant?: "card" | "text";
+            image: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            cardBody?: PortableText;
+            action: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "polaroidsBlock";
+            images: Array<{
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            }> | null;
+          }
+        | {
+            _key: string;
             _type: "richTextBlock";
-            variant?: "narrow" | "wide";
+            variant?: "columns" | "narrow" | "wide";
             body?: PortableText;
           }
         | {
@@ -1226,6 +1737,7 @@ export type HomePageQueryResult =
             _key: string;
             _type: "testimonialsBlock";
             heading?: string;
+            script?: string;
             items?: Array<{
               quote?: string;
               author?: string;
@@ -1265,7 +1777,7 @@ export type HomePageQueryResult =
 
 // Source: src/modules/content/queries.ts
 // Variable: pageQuery
-// Query: *[_type == "page" && slug.current == $slug][0]{  _id, title, sections[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }}
+// Query: *[_type == "page" && slug.current == $slug][0]{  _id, title, sections[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "guideListBlock" => {    ctaLink{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},    ctaImage{ asset, hotspot, crop, alt, credit },    "items": select(      mode == "manual" => guides[]->{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }},      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }}    )  },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }}
 export type PageQueryResult = {
   _id: string;
   title: string | null;
@@ -1289,6 +1801,11 @@ export type PageQueryResult = {
             | {
                 _type: "guide";
                 slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
                 regionSlug: null;
               }
             | {
@@ -1353,6 +1870,17 @@ export type PageQueryResult = {
       }
     | {
         _key: string;
+        _type: "enquiryFormBlock";
+        heading?: string;
+        intro?: PortableText;
+        script?: string;
+        tripTypes?: Array<string>;
+        submitLabel?: string;
+        note?: string;
+        successMessage?: string;
+      }
+    | {
+        _key: string;
         _type: "experienceGridBlock";
         heading?: string;
         variant?: "carousel" | "grid";
@@ -1394,6 +1922,65 @@ export type PageQueryResult = {
       }
     | {
         _key: string;
+        _type: "featureBlock";
+        heading?: string;
+        title?: string;
+        body?: PortableText;
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        } | null;
+        label?: string;
+        imagePosition?: "left" | "right";
+        imageShape?: "tall" | "wide";
+        action: {
+          label: string | null;
+          kind: "external" | "internal" | null;
+          external: string | null;
+          internal:
+            | {
+                _type: "experience";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "guide";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "homePage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "page";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "place";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "region";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | null;
+        } | null;
+      }
+    | {
+        _key: string;
         _type: "galleryBlock";
         heading?: string;
         images: Array<{
@@ -1406,10 +1993,90 @@ export type PageQueryResult = {
       }
     | {
         _key: string;
+        _type: "guideListBlock";
+        heading?: string;
+        variant?: "carousel" | "grid";
+        mode?: "latest" | "manual";
+        guides?: Array<
+          {
+            _key: string;
+          } & GuideReference
+        >;
+        limit?: number;
+        ctaText?: string;
+        ctaLink: {
+          label: string | null;
+          kind: "external" | "internal" | null;
+          external: string | null;
+          internal:
+            | {
+                _type: "experience";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "guide";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "homePage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "page";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "place";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "region";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | null;
+        } | null;
+        ctaImage: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        } | null;
+        items: Array<{
+          _id: string;
+          title: string | null;
+          slug: string | null;
+          excerpt: string | null;
+          publishedAt: string | null;
+          category: string | null;
+          image: {
+            asset: SanityImageAssetReference | null;
+            hotspot: SanityImageHotspot | null;
+            crop: SanityImageCrop | null;
+            alt: string | null;
+            credit: string | null;
+          } | null;
+        }> | null;
+      }
+    | {
+        _key: string;
         _type: "heroBlock";
-        variant?: "image" | "minimal" | "split";
+        variant?: "brand" | "image" | "minimal" | "split";
         eyebrow?: string;
         headline?: string;
+        script?: string;
+        tag?: string;
         intro?: string;
         image: {
           asset: SanityImageAssetReference | null;
@@ -1431,6 +2098,11 @@ export type PageQueryResult = {
             | {
                 _type: "guide";
                 slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
                 regionSlug: null;
               }
             | {
@@ -1458,8 +2130,76 @@ export type PageQueryResult = {
       }
     | {
         _key: string;
+        _type: "pageHeroBlock";
+        title?: string;
+        script?: string;
+        variant?: "card" | "text";
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        } | null;
+        cardBody?: PortableText;
+        action: {
+          label: string | null;
+          kind: "external" | "internal" | null;
+          external: string | null;
+          internal:
+            | {
+                _type: "experience";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "guide";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "homePage";
+                slug: null;
+                regionSlug: null;
+              }
+            | {
+                _type: "page";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "place";
+                slug: string | null;
+                regionSlug: string | null;
+              }
+            | {
+                _type: "region";
+                slug: string | null;
+                regionSlug: null;
+              }
+            | null;
+        } | null;
+      }
+    | {
+        _key: string;
+        _type: "polaroidsBlock";
+        images: Array<{
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        }> | null;
+      }
+    | {
+        _key: string;
         _type: "richTextBlock";
-        variant?: "narrow" | "wide";
+        variant?: "columns" | "narrow" | "wide";
         body?: PortableText;
       }
     | {
@@ -1483,6 +2223,7 @@ export type PageQueryResult = {
         _key: string;
         _type: "testimonialsBlock";
         heading?: string;
+        script?: string;
         items?: Array<{
           quote?: string;
           author?: string;
@@ -1783,8 +2524,541 @@ export type GuidesQueryResult = Array<{
 }>;
 
 // Source: src/modules/content/queries.ts
+// Variable: guidesPageQuery
+// Query: *[_id == "guidesPage"][0]{ title, sections[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "guideListBlock" => {    ctaLink{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},    ctaImage{ asset, hotspot, crop, alt, credit },    "items": select(      mode == "manual" => guides[]->{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }},      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }}    )  },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }
+export type GuidesPageQueryResult =
+  | {
+      title: null;
+      sections: null;
+      seo: null;
+    }
+  | {
+      title: string | null;
+      sections: null;
+      seo: null;
+    }
+  | {
+      title: string | null;
+      sections: null;
+      seo: {
+        title: string | null;
+        description: string | null;
+        noIndex: boolean | null;
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        } | null;
+      } | null;
+    }
+  | {
+      title: string | null;
+      sections: Array<
+        | {
+            _key: string;
+            _type: "ctaBandBlock";
+            variant?: "forest" | "sand" | "sea";
+            headline?: string;
+            text?: string;
+            action: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "destinationCardsBlock";
+            heading?: string;
+            items: Array<
+              | {
+                  _id: string;
+                  _type: "place";
+                  title: string | null;
+                  slug: string | null;
+                  regionSlug: string | null;
+                  summary: string | null;
+                  image: {
+                    asset: SanityImageAssetReference | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                    alt: string | null;
+                    credit: string | null;
+                  } | null;
+                }
+              | {
+                  _id: string;
+                  _type: "region";
+                  title: string | null;
+                  slug: string | null;
+                  regionSlug: null;
+                  summary: string | null;
+                  image: {
+                    asset: SanityImageAssetReference | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                    alt: string | null;
+                    credit: string | null;
+                  } | null;
+                }
+            > | null;
+          }
+        | {
+            _key: string;
+            _type: "enquiryFormBlock";
+            heading?: string;
+            intro?: PortableText;
+            script?: string;
+            tripTypes?: Array<string>;
+            submitLabel?: string;
+            note?: string;
+            successMessage?: string;
+          }
+        | {
+            _key: string;
+            _type: "experienceGridBlock";
+            heading?: string;
+            variant?: "carousel" | "grid";
+            mode?: "manual" | "region";
+            experiences?: Array<
+              {
+                _key: string;
+              } & ExperienceReference
+            >;
+            region?: RegionReference;
+            limit?: number;
+            items: Array<{
+              _id: string;
+              title: string | null;
+              slug: string | null;
+              summary: string | null;
+              durationMinutes: number | null;
+              priceFromCents: number | null;
+              badges: Array<string> | null;
+              region: string | null;
+              image: {
+                asset: SanityImageAssetReference | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+                alt: string | null;
+                credit: string | null;
+              } | null;
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "faqBlock";
+            heading?: string;
+            items?: Array<
+              {
+                _key: string;
+              } & FaqItem
+            >;
+          }
+        | {
+            _key: string;
+            _type: "featureBlock";
+            heading?: string;
+            title?: string;
+            body?: PortableText;
+            image: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            label?: string;
+            imagePosition?: "left" | "right";
+            imageShape?: "tall" | "wide";
+            action: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "galleryBlock";
+            heading?: string;
+            images: Array<{
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "guideListBlock";
+            heading?: string;
+            variant?: "carousel" | "grid";
+            mode?: "latest" | "manual";
+            guides?: Array<
+              {
+                _key: string;
+              } & GuideReference
+            >;
+            limit?: number;
+            ctaText?: string;
+            ctaLink: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+            ctaImage: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            items: Array<{
+              _id: string;
+              title: string | null;
+              slug: string | null;
+              excerpt: string | null;
+              publishedAt: string | null;
+              category: string | null;
+              image: {
+                asset: SanityImageAssetReference | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+                alt: string | null;
+                credit: string | null;
+              } | null;
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "heroBlock";
+            variant?: "brand" | "image" | "minimal" | "split";
+            eyebrow?: string;
+            headline?: string;
+            script?: string;
+            tag?: string;
+            intro?: string;
+            image: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            actions: Array<{
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "pageHeroBlock";
+            title?: string;
+            script?: string;
+            variant?: "card" | "text";
+            image: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+            cardBody?: PortableText;
+            action: {
+              label: string | null;
+              kind: "external" | "internal" | null;
+              external: string | null;
+              internal:
+                | {
+                    _type: "experience";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "guide";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "guidesPage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "homePage";
+                    slug: null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "page";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | {
+                    _type: "place";
+                    slug: string | null;
+                    regionSlug: string | null;
+                  }
+                | {
+                    _type: "region";
+                    slug: string | null;
+                    regionSlug: null;
+                  }
+                | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "polaroidsBlock";
+            images: Array<{
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "richTextBlock";
+            variant?: "columns" | "narrow" | "wide";
+            body?: PortableText;
+          }
+        | {
+            _key: string;
+            _type: "spacerBlock";
+            size?: "large" | "medium" | "small";
+            divider?: boolean;
+          }
+        | {
+            _key: string;
+            _type: "statsBlock";
+            heading?: string;
+            items?: Array<{
+              value?: string;
+              label?: string;
+              _type: "stat";
+              _key: string;
+            }>;
+          }
+        | {
+            _key: string;
+            _type: "testimonialsBlock";
+            heading?: string;
+            script?: string;
+            items?: Array<{
+              quote?: string;
+              author?: string;
+              origin?: string;
+              _type: "testimonial";
+              _key: string;
+            }>;
+          }
+        | {
+            _key: string;
+            _type: "videoBlock";
+            url?: string;
+            title?: string;
+            poster: {
+              asset: SanityImageAssetReference | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+              alt: string | null;
+              credit: string | null;
+            } | null;
+          }
+      > | null;
+      seo: {
+        title: string | null;
+        description: string | null;
+        noIndex: boolean | null;
+        image: {
+          asset: SanityImageAssetReference | null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+          alt: string | null;
+          credit: string | null;
+        } | null;
+      } | null;
+    }
+  | null;
+
+// Source: src/modules/content/queries.ts
+// Variable: enquiryTargetQuery
+// Query: *[_id == "siteSettings"][0]{ siteName, email, enquiryNotificationEmail }
+export type EnquiryTargetQueryResult =
+  | {
+      siteName: null;
+      email: null;
+      enquiryNotificationEmail: null;
+    }
+  | {
+      siteName: null;
+      email: string | null;
+      enquiryNotificationEmail: null;
+    }
+  | {
+      siteName: string | null;
+      email: string | null;
+      enquiryNotificationEmail: string | null;
+    }
+  | null;
+
+// Source: src/modules/content/queries.ts
 // Variable: guideQuery
-// Query: *[_type == "guide" && slug.current == $slug][0]{  _id,  title,  excerpt,  publishedAt,  heroImage{ asset, hotspot, crop, alt, credit },  "category": category->title,  "author": author->{ name, bio, photo{ asset, hotspot, crop, alt, credit } },  "sections": body[]{    ...,    _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },    _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },    _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },    _type == "experienceGridBlock" => {      "items": select(        mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},        experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}      )    }  },  "related": related[]->{ _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit } },  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }}
+// Query: *[_type == "guide" && slug.current == $slug][0]{  _id,  title,  excerpt,  publishedAt,  heroImage{ asset, hotspot, crop, alt, credit },  "category": category->title,  "author": author->{ name, bio, photo{ asset, hotspot, crop, alt, credit } },  "sections": body[]{  ...,  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "guideListBlock" => {    ctaLink{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }},    ctaImage{ asset, hotspot, crop, alt, credit },    "items": select(      mode == "manual" => guides[]->{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }},      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }}    )  },  _type == "ctaBandBlock" => { action{  label,  kind,  external,  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }} },  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },  _type == "destinationCardsBlock" => { "items": items[]->{  _id,  _type,  title,  "slug": slug.current,  "regionSlug": region->slug.current,  summary,  "image": heroImage{ asset, hotspot, crop, alt, credit }} },  _type == "experienceGridBlock" => {    "items": select(      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }},      experiences[]->{  _id,  title,  "slug": slug.current,  summary,  durationMinutes,  priceFromCents,  badges,  "region": region->title,  "image": images[0]{ asset, hotspot, crop, alt, credit }}    )  }},  "related": related[]->{  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }},  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }}
 export type GuideQueryResult = {
   _id: string;
   title: string | null;
@@ -1829,6 +3103,11 @@ export type GuideQueryResult = {
             | {
                 _type: "guide";
                 slug: string | null;
+                regionSlug: null;
+              }
+            | {
+                _type: "guidesPage";
+                slug: null;
                 regionSlug: null;
               }
             | {
@@ -1910,7 +3189,7 @@ export type GuideQueryResult = {
     | {
         _key: string;
         _type: "richTextBlock";
-        variant?: "narrow" | "wide";
+        variant?: "columns" | "narrow" | "wide";
         body?: PortableText;
       }
     | {
@@ -2004,17 +3283,19 @@ export type RedirectsQueryResult = Array<{
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '*[_id == "siteSettings"][0]{\n  siteName,\n  tagline,\n  logo{ asset, hotspot, crop, alt, credit },\n  mainMenu[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n  headerCta{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n  footerColumns[]{ title, links[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  email,\n  phone,\n  social,\n  company,\n  defaultSeo{ title, description, image{ asset, hotspot, crop, alt, credit } }\n}': SettingsQueryResult;
+    '*[_id == "siteSettings"][0]{\n  siteName,\n  tagline,\n  scriptTagline,\n  founderName,\n  logo{ asset, hotspot, crop, alt, credit },\n  mainMenu[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n  headerCta{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n  footerHeadline,\n  footerImage{ asset, hotspot, crop, alt, credit },\n  footerColumns[]{ title, links[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  legalLinks[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n  email,\n  phone,\n  whatsapp,\n  social,\n  company,\n  defaultSeo{ title, description, image{ asset, hotspot, crop, alt, credit } }\n}': SettingsQueryResult;
     '*[_id == "announcement" && enabled == true\n  && (!defined(startsAt) || startsAt <= now())\n  && (!defined(endsAt) || endsAt > now())][0]{ message, variant, link{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} }': AnnouncementQueryResult;
-    '*[_id == "homePage"][0]{ sections[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }': HomePageQueryResult;
-    '*[_type == "page" && slug.current == $slug][0]{\n  _id, title, sections[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }\n}': PageQueryResult;
+    '*[_id == "homePage"][0]{ sections[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "guideListBlock" => {\n    ctaLink{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n    ctaImage{ asset, hotspot, crop, alt, credit },\n    "items": select(\n      mode == "manual" => guides[]->{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n}\n    )\n  },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }': HomePageQueryResult;
+    '*[_type == "page" && slug.current == $slug][0]{\n  _id, title, sections[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "guideListBlock" => {\n    ctaLink{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n    ctaImage{ asset, hotspot, crop, alt, credit },\n    "items": select(\n      mode == "manual" => guides[]->{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n}\n    )\n  },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }\n}': PageQueryResult;
     '*[_type == "region" && slug.current == $slug][0]{\n  _id,\n  title,\n  summary,\n  intro,\n  heroImage{ asset, hotspot, crop, alt, credit },\n  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } },\n  "places": *[_type == "place" && region._ref == ^._id && defined(slug.current)] | order(title asc){\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n  "experiences": *[_type == "experience" && region._ref == ^._id && defined(slug.current)] | order(title asc){\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n}': RegionQueryResult;
     '*[_type == "place" && slug.current == $slug && region->slug.current == $region][0]{\n  _id,\n  title,\n  summary,\n  intro,\n  heroImage{ asset, hotspot, crop, alt, credit },\n  gallery[]{ asset, hotspot, crop, alt, credit },\n  quickFacts,\n  "region": region->{ title, "slug": slug.current },\n  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } },\n  "experiences": *[_type == "experience" && ^._id in places[]._ref && defined(slug.current)] | order(title asc){\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n}': PlaceQueryResult;
     '*[_type == "region" && defined(slug.current)] | order(title asc){\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n}': RegionsQueryResult;
     '*[_type == "experience" && defined(slug.current)] | order(title asc){\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}': ExperiencesQueryResult;
     '*[_type == "experience" && slug.current == $slug][0]{\n  _id,\n  title,\n  type,\n  summary,\n  highlights,\n  images[]{ asset, hotspot, crop, alt, credit },\n  description,\n  itinerary,\n  durationMinutes,\n  languages,\n  maxGroupSize,\n  included,\n  notIncluded,\n  meetingPoint,\n  whatToBring,\n  priceFromCents,\n  badges,\n  faq,\n  "region": region->{ title, "slug": slug.current },\n  "cancellationPolicy": cancellationPolicy->{ title, text },\n  "related": related[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }\n}': ExperienceQueryResult;
     '*[_type == "guide" && defined(slug.current)] | order(publishedAt desc){\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n}': GuidesQueryResult;
-    '*[_type == "guide" && slug.current == $slug][0]{\n  _id,\n  title,\n  excerpt,\n  publishedAt,\n  heroImage{ asset, hotspot, crop, alt, credit },\n  "category": category->title,\n  "author": author->{ name, bio, photo{ asset, hotspot, crop, alt, credit } },\n  "sections": body[]{\n    ...,\n    _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n    _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n    _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n    _type == "experienceGridBlock" => {\n      "items": select(\n        mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n        experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n      )\n    }\n  },\n  "related": related[]->{ _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit } },\n  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }\n}': GuideQueryResult;
+    '*[_id == "guidesPage"][0]{ title, sections[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "guideListBlock" => {\n    ctaLink{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n    ctaImage{ asset, hotspot, crop, alt, credit },\n    "items": select(\n      mode == "manual" => guides[]->{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n}\n    )\n  },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n}, seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } } }': GuidesPageQueryResult;
+    '*[_id == "siteSettings"][0]{ siteName, email, enquiryNotificationEmail }': EnquiryTargetQueryResult;
+    '*[_type == "guide" && slug.current == $slug][0]{\n  _id,\n  title,\n  excerpt,\n  publishedAt,\n  heroImage{ asset, hotspot, crop, alt, credit },\n  "category": category->title,\n  "author": author->{ name, bio, photo{ asset, hotspot, crop, alt, credit } },\n  "sections": body[]{\n  ...,\n  _type == "heroBlock" => { image{ asset, hotspot, crop, alt, credit }, actions[]{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "featureBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "pageHeroBlock" => { image{ asset, hotspot, crop, alt, credit }, action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "polaroidsBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "guideListBlock" => {\n    ctaLink{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n},\n    ctaImage{ asset, hotspot, crop, alt, credit },\n    "items": select(\n      mode == "manual" => guides[]->{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n      *[_type == "guide" && defined(slug.current)] | order(publishedAt desc) [0...12]{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n}\n    )\n  },\n  _type == "ctaBandBlock" => { action{\n  label,\n  kind,\n  external,\n  "internal": internal->{ _type, "slug": slug.current, "regionSlug": region->slug.current }\n} },\n  _type == "galleryBlock" => { images[]{ asset, hotspot, crop, alt, credit } },\n  _type == "videoBlock" => { poster{ asset, hotspot, crop, alt, credit } },\n  _type == "destinationCardsBlock" => { "items": items[]->{\n  _id,\n  _type,\n  title,\n  "slug": slug.current,\n  "regionSlug": region->slug.current,\n  summary,\n  "image": heroImage{ asset, hotspot, crop, alt, credit }\n} },\n  _type == "experienceGridBlock" => {\n    "items": select(\n      mode == "region" => *[_type == "experience" && region._ref == ^.region._ref && defined(slug.current)] | order(title asc) [0...12]{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n},\n      experiences[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  durationMinutes,\n  priceFromCents,\n  badges,\n  "region": region->title,\n  "image": images[0]{ asset, hotspot, crop, alt, credit }\n}\n    )\n  }\n},\n  "related": related[]->{\n  _id, title, "slug": slug.current, excerpt, publishedAt, "category": category->title, "image": heroImage{ asset, hotspot, crop, alt, credit }\n},\n  seo{ title, description, noIndex, image{ asset, hotspot, crop, alt, credit } }\n}': GuideQueryResult;
     '*[_type in ["page", "region", "place", "experience", "guide"] && defined(slug.current) && seo.noIndex != true]{\n  _type, _updatedAt, "slug": slug.current, "regionSlug": region->slug.current\n}': SitemapQueryResult;
     '*[_type == "redirect" && defined(from) && defined(to)]{ from, to, permanent }': RedirectsQueryResult;
   }

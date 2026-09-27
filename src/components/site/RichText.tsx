@@ -4,11 +4,11 @@ import { SanityImage } from "./SanityImage";
 
 const components: PortableTextComponents = {
   block: {
-    h2: ({ children }) => <h2 className="text-forest mt-10 text-2xl font-semibold">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-forest mt-8 text-xl font-semibold">{children}</h3>,
+    h2: ({ children }) => <h2 className="display mt-10 text-3xl">{children}</h2>,
+    h3: ({ children }) => <h3 className="display text-ink mt-8 text-2xl">{children}</h3>,
     normal: ({ children }) => <p className="mt-4 leading-relaxed">{children}</p>,
     blockquote: ({ children }) => (
-      <blockquote className="border-sea mt-6 border-l-4 pl-4 text-lg italic">{children}</blockquote>
+      <blockquote className="border-red mt-6 border-l-4 pl-4 text-lg italic">{children}</blockquote>
     ),
   },
   list: {
@@ -17,7 +17,7 @@ const components: PortableTextComponents = {
   },
   marks: {
     link: ({ value, children }) => (
-      <a href={value?.href} className="text-sea hover:text-forest underline underline-offset-2">
+      <a href={value?.href} className="text-red hover:text-red-dark underline underline-offset-2">
         {children}
       </a>
     ),

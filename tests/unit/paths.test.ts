@@ -4,6 +4,7 @@ import { pathFor } from "@/modules/content/paths";
 describe("pathFor", () => {
   it("builds paths per content type", () => {
     expect(pathFor({ _type: "homePage" })).toBe("/");
+    expect(pathFor({ _type: "guidesPage" })).toBe("/guides");
     expect(pathFor({ _type: "page", slug: "summer-2027" })).toBe("/summer-2027");
     expect(pathFor({ _type: "region", slug: "vidzeme" })).toBe("/destinations/vidzeme");
     expect(pathFor({ _type: "place", slug: "sigulda", regionSlug: "vidzeme" })).toBe("/destinations/vidzeme/sigulda");
