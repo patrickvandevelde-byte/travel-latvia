@@ -4,7 +4,7 @@
 |---|---|
 | **Version** | 0.1 (DRAFT, frozen as v1.0 at M1) |
 | **Date** | 2026-09-27 |
-| **Related** | [Charter](./01-project-charter.md) · [Services](./03-services.md) · [Design](./04-design.md) · [Architecture](./06-architecture.md) · [Questions](./07-client-questions.md) |
+| **Related** | [Charter](./01-project-charter.md) · [Services](./03-services.md) · [Design](./04-design.md) · [Architecture](./06-architecture.md) · [Questions](./07-client-questions.md) · [Marketer self-service](./08-marketer-self-service.md) |
 
 **Priority:** **P0** = launch blocker · **P1** = launch target (may slip to fast-follow) · **P2** = v2.
 
@@ -28,7 +28,7 @@ International travellers to Latvia can find inspiration but can't reliably *book
 | **Nature seeker** "Mark & Sophie, 45, UK" | 1-week trip, wants Gauja, bogs, coast | Compare day trips; understand logistics without a car; bundle several experiences |
 | **Planner / family** "The Jansens, NL" | Wants a stress-free tailor-made itinerary | Describe needs once; receive a proposal; pay a deposit securely |
 | **Diaspora / gift buyer** "Ilze, 60, Canada" | Latvian heritage, buys gifts and vouchers | Buy Latvian products and gift experiences for relatives |
-| **Editor** (client staff) | Publishes guides, updates experiences | Create and translate pages without a developer; preview before publishing |
+| **Marketer** (client staff, **non-technical**, primary admin user) | Runs the website day to day; may also handle bookings | Launch pages, campaigns, promo codes, availability and SEO changes without a developer or a deploy, and without being able to break the site |
 | **Operations** (client staff) | Runs tours day to day | See today's manifests; adjust capacity; handle cancellations and refunds |
 
 ## 4. User journeys
@@ -43,7 +43,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | Checkout completion | Paid ÷ Stripe sessions created | ≥ 55 % |
 | Shop AOV | Shopify average order value | Baseline at month 1 |
 | Inquiry → deposit | Deposits paid ÷ qualified inquiries | ≥ 25 % |
-| Editor autonomy | Content changes needing a developer | 0 per month after hyper-care |
+| Marketer autonomy | Autonomy test ([08 §9](./08-marketer-self-service.md#9-autonomy-test-uat-gate-m5)) passed at UAT; routine changes needing a developer | ≥ 18/20 at UAT; 0 routine tickets / month after hyper-care |
 | Performance | CWV "Good" (p75 mobile) | ≥ 90 % of URLs |
 
 ---
@@ -68,12 +68,12 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 
 | ID | Requirement | Pri |
 |---|---|---|
-| CMS-01 | Sanity Studio embedded at `/studio`, SSO or email login, roles: Administrator, Editor, Translator. | P0 |
+| CMS-01 | Sanity Studio embedded at `/studio`, Google/Microsoft SSO, roles: Admin, Marketer, Ops, Translator (see MKT-17). | P0 |
 | CMS-02 | Schemas with validation (required fields, character limits for SEO fields, image alt text required). | P0 |
 | CMS-03 | Draft preview and click-to-edit visual editing (Presentation tool) on preview deployments. | P0 |
 | CMS-04 | Publishing triggers on-demand cache revalidation; changes live in < 60 s. | P0 |
-| CMS-05 | Scheduled publishing / content releases (e.g. seasonal campaigns). | P1 |
-| CMS-06 | Redirect management in the CMS (old URL → new URL). | P1 |
+| CMS-05 | Scheduled publishing / content releases (e.g. seasonal campaigns). See MKT-04. | P0 |
+| CMS-06 | Redirect management in the CMS (old URL → new URL). See MKT-06. | P0 |
 
 ### 6.3 Internationalisation (I18N)
 
@@ -113,7 +113,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | ID | Requirement | Pri |
 |---|---|---|
 | BOOK-01 | Each experience has one or more **options** (e.g. shared/private, language) with **rate categories** (adult, child, senior, family) and prices in integer euro cents. | P0 |
-| BOOK-02 | **Schedules** generate **slots** (date + start time + capacity) from recurrence rules, with per-date overrides and blackout dates. | P0 |
+| BOOK-02 | **Schedules** (recurrence, capacity, per-date overrides, blackout dates, seasonal prices) are defined by the marketer in Sanity Studio and materialised into **slots** in Postgres on publish (ADR-011). | P0 |
 | BOOK-03 | Availability API returns bookable dates/slots with remaining capacity for a date range (cached ≤ 60 s, recomputed at checkout). | P0 |
 | BOOK-04 | **Holds**: proceeding to payment reserves capacity atomically for up to 30 min; expired holds are released automatically. **No overbooking under concurrency.** | P0 |
 | BOOK-05 | Booking widget: date → slot → participants → live price → lead traveller details → T&Cs consent → pay. Keyboard and screen-reader accessible. | P0 |
@@ -121,7 +121,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | BOOK-07 | Human-readable booking reference (e.g. `TL-7K3Q9P`). | P0 |
 | BOOK-08 | Manage-booking page via signed magic link: view details, add to calendar (.ics), request cancellation per policy. | P0 |
 | BOOK-09 | Self-service cancellation with automatic refund per policy (e.g. full refund ≥ 24 h before start). | P1 |
-| BOOK-10 | Promo codes / discounts on bookings. | P1 |
+| BOOK-10 | Promo codes / discounts on bookings. Superseded by MKT-08. | P0 |
 | BOOK-11 | Add-ons (e.g. lunch, photo package) per option. | P2 |
 | BOOK-12 | Multi-experience basket (book several experiences in one payment). | P2 |
 
@@ -151,10 +151,10 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 
 | ID | Requirement | Pri |
 |---|---|---|
-| OPS-01 | Authenticated `/admin` for staff (email magic link / SSO), role-based: Admin, Ops. | P0 |
+| OPS-01 | Bookings back-office delivered as a **Bookings tool inside Sanity Studio** (single workspace, ADR-010), role-based. Fallback: `/admin` with the same SSO, linked from the Studio. | P0 |
 | OPS-02 | Bookings list with search/filter (date, experience, status) and booking detail view. | P0 |
 | OPS-03 | Daily manifest per slot (participants, contact details, notes) exportable to CSV/PDF. | P0 |
-| OPS-04 | Manage schedules, slots, capacity overrides and blackout dates. | P0 |
+| OPS-04 | Manage schedules, capacity overrides and blackout dates in Studio → Availability, with booking-safe guardrails (MKT-09). | P0 |
 | OPS-05 | Create manual/offline bookings (phone, walk-in) that consume inventory. | P0 |
 | OPS-06 | Cancel booking and refund (full/partial) with an audit log entry. | P0 |
 | OPS-07 | Simple dashboard: bookings and revenue by day/experience. | P1 |
@@ -164,7 +164,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | ID | Requirement | Pri |
 |---|---|---|
 | TRIP-01 | Multi-step inquiry form (dates/flexibility, travellers, interests, pace, budget band, accommodation level, contact, consent), spam-protected. | P0 |
-| TRIP-02 | Inquiry pipeline in `/admin`: statuses New → Qualified → Quoted → Deposit paid → Confirmed / Lost; internal notes. | P0 |
+| TRIP-02 | Inquiry pipeline in the Studio Bookings tool: statuses New → Qualified → Quoted → Deposit paid → Confirmed / Lost; internal notes. | P0 |
 | TRIP-03 | Create a quote (line items, total, deposit %) and send it by email with a Stripe payment link. | P1 |
 | TRIP-04 | Payment of a deposit/balance updates inquiry status via webhook. | P1 |
 | TRIP-05 | CRM sync (HubSpot/Pipedrive) (Q-D4). | P2 |
@@ -177,6 +177,34 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | ANLY-02 | Funnel events: `view_experience`, `select_date`, `begin_checkout`, `booking_paid`, `add_to_cart`, `shop_checkout`, `inquiry_submitted`. | P0 |
 | ANLY-03 | Vercel Web Analytics + Speed Insights; GA4 or privacy-friendly alternative (Q-D4). | P0 |
 | ANLY-04 | Server-side conversion tracking for paid bookings (from webhook). | P1 |
+
+### 6.12 Marketer self-service (MKT)
+
+Design rule: **if the marketer can see it on the website, the marketer can change it safely, without a developer and without a deploy.** Full model: [08-marketer-self-service.md](./08-marketer-self-service.md).
+
+| ID | Requirement | Pri |
+|---|---|---|
+| MKT-01 | Studio is organised by task (Dashboard, Website, Experiences, Campaigns, Shop, Emails, SEO, Settings, Bookings, Help). Plain-language labels, and a description and example on every non-obvious field. | P0 |
+| MKT-02 | Page builder: marketers create and reorder pages from a curated block library (≥ 15 blocks) and pre-filled templates, with no code, HTML or free styling. | P0 |
+| MKT-03 | Visual editing: click-to-edit on the live preview inside Studio, with mobile/tablet/desktop preview. | P0 |
+| MKT-04 | Campaign releases: bundle changes across documents; preview; schedule publish and unpublish. | P0 |
+| MKT-05 | All global elements are editable: navigation, footer, announcement bar (date-bound), contact details, social links, cookie banner copy, default SEO, marketing UI labels. | P0 |
+| MKT-06 | Redirects managed in Studio. A slug change automatically creates a 301. Loops and duplicates are rejected. Live in < 60 s without a deploy. | P0 |
+| MKT-07 | SEO tab on every routable document: title, description, social image, noindex, canonical, with counters, a Google/social preview and warnings. | P0 |
+| MKT-08 | Promo codes created in Studio (percentage/fixed, validity window, usage limit, scope by experience/region, min pax) and validated server-side at checkout. | P0 |
+| MKT-09 | Availability managed in Studio: recurring schedules, capacity, blackout dates, seasonal prices. Capacity can't go below booked seats. A blackout lists affected bookings. Price changes never alter existing bookings. | P0 |
+| MKT-10 | Bookings tool in Studio: list, filters, today's manifest (CSV/PDF), inquiries pipeline, cancel/refund (Ops role). | P0 |
+| MKT-11 | Transactional email copy (subject, intro, sections) editable per language in Studio. Layout locked in code, merge tags chosen from a list, send-test button. | P1 |
+| MKT-12 | Tracking tags managed by the marketer in Google Tag Manager, with Consent Mode v2 enforced and no deploy needed. | P0 |
+| MKT-13 | AI Assist in Studio: translate documents, draft alt text and SEO descriptions. Always human-reviewed before publish. | P1 |
+| MKT-14 | Configurable forms (newsletter, lead) in Studio: fields, success message, destination list. | P1 |
+| MKT-15 | Dashboard in Studio: bookings, revenue, inquiries and top pages, plus a to-do list (missing translations, SEO warnings, low availability). | P1 |
+| MKT-16 | Revision history with one-click restore. Deleting is blocked for referenced documents or experiences with future bookings. | P0 |
+| MKT-17 | Least-privilege roles: Admin, Marketer, Ops, Translator (matrix in 08 §2). | P0 |
+| MKT-18 | Help hub in Studio: task guides, videos, support contact, "Request a change" form. | P0 |
+| MKT-19 | Change-request pipeline: a plain-language request becomes a GitHub issue. Claude Code drafts a PR with a preview URL, the marketer checks the preview, and the maintainer reviews and merges. | P1 |
+| MKT-20 | Automated technical maintenance: dependency updates (Renovate + CI), uptime and error alerting to the maintainer, backups, instant rollback. No marketer action needed. | P0 |
+| MKT-21 | A/B testing of hero / CTA variants from Studio. | P2 |
 
 ---
 
@@ -194,6 +222,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 | NFR-08 | Maintainability | TypeScript strict; typed GROQ (Sanity TypeGen) and Shopify codegen; ≥ 80 % unit coverage on pricing/inventory modules; E2E on booking and shop checkout. | P0 |
 | NFR-09 | Browser support | Last 2 versions of evergreen browsers; iOS Safari 16+. | P0 |
 | NFR-10 | Backups | Daily Postgres backups with point-in-time recovery; Sanity dataset export weekly. | P0 |
+| NFR-11 | Marketer autonomy | Every routine task in [08 §4](./08-marketer-self-service.md#4-task-matrix-routine-work-where-it-happens-what-protects-it) is possible in Studio / Shopify / GTM without code or deploy. Autonomy test ≥ 18/20 unaided at UAT. | P0 |
 
 ## 8. Compliance requirements (client-owned; platform supports)
 

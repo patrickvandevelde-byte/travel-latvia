@@ -42,7 +42,7 @@ flowchart LR
   end
   subgraph Operations
     PG[(Postgres<br/>bookings · inventory · inquiries)]
-    BO[Back-office<br/>/admin]
+    BO[Bookings tool<br/>inside Sanity Studio]
   end
   subgraph Supporting
     EM[Resend<br/>transactional email]
@@ -50,6 +50,7 @@ flowchart LR
     MON[Sentry + Vercel logs]
   end
   ST --> S --> W
+  ST --- BO
   SH <--> W
   STR <--> W
   W <--> PG
@@ -68,14 +69,19 @@ One owner per data type. Everything else reads from or caches that owner.
 |---|---|---|---|
 | Destinations, guides, pages, SEO copy | **Sanity** | Web | Editors own it |
 | Experience definition (title, description, media, itinerary, meeting point, inclusions, rate categories, base prices) | **Sanity** | Web, checkout API (price validation) | Price is re-read server-side at checkout |
-| Departures / slots, capacity, holds | **Postgres** | Web (availability), back-office | Must be transactional; not in the CMS |
+| Schedules: recurrence, capacity, blackout dates, seasonal prices | **Sanity** | Postgres (slot generation on publish) | Marketer-editable; booking-safe guardrails (ADR-011) |
+| Slots (materialised), holds, remaining capacity | **Postgres** | Web (availability), Studio Bookings tool | Transactional; never edited by hand |
+| Promo codes | **Sanity** | Checkout API (validation), Postgres (redemptions) | Usage counts in Postgres |
+| Redirects, announcement bar | **Sanity** | Vercel Edge Config → middleware | Updated on publish, no deploy |
+| Transactional email copy | **Sanity** | Email service (React Email layout) | Layout locked in code |
+| Marketing tags / pixels | **Google Tag Manager** | Browser (after consent) | Marketer-managed |
 | Bookings, participants, booking status | **Postgres** | Back-office, emails | Stripe IDs stored for reconciliation |
 | Payments, refunds, payouts | **Stripe** | Postgres (via webhooks) | Never trust client-side payment state |
 | Shop products, variants, stock, prices | **Shopify** | Web (Storefront API), Sanity (via Connect, read-only) | Editorial enrichment in Sanity only |
 | Shop orders, shipping, fulfilment | **Shopify** | Shopify admin | Not duplicated in Postgres in v1 |
 | Tailor-made inquiries & quotes | **Postgres** | Back-office | Optional CRM sync in v2 |
 | Media (photos, video) | **Sanity** assets | Web via Sanity image CDN | Shopify product images stay in Shopify |
-| Translations (content) | **Sanity** (document-level i18n) | Web | UI strings in repo (`messages/*.json`) |
+| Translations (content) | **Sanity** (document-level i18n) | Web | Marketing UI labels in Sanity `uiStrings`; system strings (validation errors) in repo |
 
 ### 2.2 External services & accounts required
 
@@ -91,4 +97,7 @@ One owner per data type. Everything else reads from or caches that owner.
 | Sentry | Error monitoring | Client | Team |
 | Domain registrar + DNS | Domain | Client | n/a |
 | Maps (Mapbox or Google Maps) | Meeting points, destination maps | Client | Free tier to start |
-| Consent management (e.g. Cookiebot / Klaro) | GDPR cookie consent | Client | Starter |
+| Consent management (e.g. Cookiebot / Klaro) | GDPR cookie consent (Consent Mode v2) | Client | Starter |
+| Google Tag Manager + GA4 | Marketer-managed tags and analytics | Client (marketer) | Free |
+| Uptime monitoring (e.g. Better Stack / Checkly) | Alerts to maintainer | Maintainer | Free / starter |
+| Support retainer | Incidents, change requests, updates | Client ↔ agency | TBC (Q-F3) |

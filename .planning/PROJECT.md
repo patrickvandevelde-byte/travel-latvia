@@ -4,6 +4,8 @@
 
 **Core value:** Book a Latvian experience in under 2 minutes on mobile, with an honest price and instant confirmation.
 
+**Operating principle:** a non-technical marketer runs the whole site from Sanity Studio without a developer (`docs/08-marketer-self-service.md`). Technical upkeep is automated and backed by a retainer.
+
 **Stack:** Next.js on Vercel · Sanity · Shopify (shop) · Stripe (bookings) · Postgres/Neon · Claude Code (GSD).
 
 **Detailed specs:** `docs/01-project-charter.md`, `docs/05-prd.md`, `docs/06-architecture.md`, `docs/04-design.md`.
@@ -18,3 +20,5 @@
 - ADR-004 Gift vouchers → Q-B3
 - ADR-005 Build vs buy booking engine → Q-B6
 - Package-travel legal status → Q-E1
+- Who runs the site / bookings; maintenance model → Q-F1, Q-F3
+- ADR-010 spike: Bookings tool inside Studio vs `/admin` fallback (Phase 1)

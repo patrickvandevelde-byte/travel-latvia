@@ -8,7 +8,7 @@
 
 ---
 
-## Top 7: answer these first
+## Top 8: answer these first
 
 | # | Question | Why it matters |
 |---|---|---|
@@ -19,6 +19,7 @@
 | 5 | **Q-B2** Must customers buy shop items and experiences in *one* basket? | Decides the Shopify/Stripe split (ADR-003) |
 | 6 | **Q-C1** Which languages at launch? | Content and translation cost; routing |
 | 7 | **Q-B5** Budget range and hard launch date? | Scope vs time trade-offs |
+| 8 | **Q-F1** Who will run the website day to day, and do they also handle bookings? | Shapes the marketer workspace, roles and training ([08](./08-marketer-self-service.md)) |
 
 ---
 
@@ -67,7 +68,7 @@
 ## D. Technology & operations
 
 - 🔴 **Q-D1** Which accounts already exist: Shopify (plan?), Stripe, Sanity, Vercel, GitHub, domain registrar, Google Workspace / Microsoft 365? Who is the admin of each?
-- 🟡 **Q-D2** Who handles bookings day to day, and how many staff need `/admin` access? Do guides need a mobile manifest view?
+- 🟡 **Q-D2** Who handles bookings day to day, and how many staff need access to bookings? Do guides need a mobile manifest view?
 - 🟡 **Q-D3** If there is an existing site: which content must be migrated, and do we need to preserve URLs for SEO?
 - 🟡 **Q-D4** Which tools do you already use or prefer?
   - Newsletter (Mailchimp, Klaviyo, Brevo…)
@@ -85,6 +86,15 @@
 - 🟡 **Q-E3** Have you checked which payment providers Shopify offers your legal entity (Shopify Payments availability, or a third-party gateway)?
 - 🟡 **Q-E4** Do you have Terms & Conditions, booking conditions, a privacy policy and a cookie policy, or should these be drafted by your counsel?
 - ⚪ **Q-E5** Do you carry liability insurance for activities? Should any insurance text or upsell appear during booking?
+
+## F. Website ownership & self-service
+
+- 🔴 **Q-F1** Who will run the website day to day (role, technical comfort, hours per week)? Will the same person handle bookings and refunds?
+- 🟡 **Q-F2** Which tools does this person already know (WordPress, Shopify, Canva, Google Analytics, Tag Manager, Mailchimp…)?
+- 🔴 **Q-F3** After launch, who handles technical maintenance: a support retainer with us, an in-house developer, or nobody yet? What monthly budget is available?
+- 🟡 **Q-F4** Which marketing activities must the marketer run without help? (Landing pages, promo codes, tracking pixels, A/B tests, newsletters, pop-ups…)
+- ⚪ **Q-F5** Does content need sign-off by someone else before publishing (approval workflow)?
+- ⚪ **Q-F6** Are you comfortable using AI assistance for translations and first drafts, with human review? Any company policy on AI?
 
 ---
 

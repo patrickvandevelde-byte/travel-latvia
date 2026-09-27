@@ -12,6 +12,7 @@ Every deliverable has an owner, a format and an acceptance criterion. Requiremen
 | D0.4 | PRD v1.0 | `docs/05-prd.md` | Delivery lead | Open questions closed; sponsor approves |
 | D0.5 | Architecture v1.0 + ADRs | `docs/06-architecture.md` | Tech lead | ADR-001…006 status = Accepted |
 | D0.6 | Content inventory & migration list | Spreadsheet | Client content lead | Every v1 page type has an owner and due date |
+| D0.7 | Marketer profile & task list | Interview notes → `docs/08` §4 | Delivery lead + marketer | Marketer confirms the task matrix covers their weekly work |
 
 ## Phase 1 — Foundation (weeks 2–4)
 
@@ -19,7 +20,9 @@ Every deliverable has an owner, a format and an acceptance criterion. Requiremen
 |---|---|---|
 | D1.1 | Next.js repository scaffold (TypeScript, Tailwind, lint, test) | `pnpm build` and `pnpm test` pass in CI |
 | D1.2 | Vercel project with Preview + Production environments | Every PR gets a preview URL; env vars set per environment |
-| D1.3 | Sanity project, datasets (`production`, `staging`), embedded Studio at `/studio` | Editors can log in and create a Destination and an Experience |
+| D1.3 | Sanity project, datasets (`production`, `staging`), embedded Studio at `/studio`, SSO, roles, task-based structure | Marketer logs in via SSO and finds every section of 08 §3 |
+| D1.9 | ADR-010 spike: Studio tool with server-verified Sanity user + role | Decision recorded: Studio tool or `/admin` fallback |
+| D1.10 | Maintenance automation: Renovate, uptime checks, Sentry alerts, Sanity backup workflow | First Renovate PR auto-merged after green CI |
 | D1.4 | Sanity schemas for all v1 content types | Matches Architecture §5.1 |
 | D1.5 | Design system: tokens, typography, core components | Components rendered on a `/design` preview route; WCAG AA contrast |
 | D1.6 | Postgres database + migrations | Schema from Architecture §5.2 applied to preview and prod |
@@ -37,7 +40,11 @@ Every deliverable has an owner, a format and an acceptance criterion. Requiremen
 | D2.5 | Practical info & static pages | `CONT-06` |
 | D2.6 | Internationalisation (routing, translated content, hreflang) | `I18N-01…04` |
 | D2.7 | SEO foundations (metadata, sitemap, structured data, redirects) | `SEO-01…05` |
-| D2.8 | Visual editing / live preview in Studio | `CMS-03` |
+| D2.8 | Visual editing / live preview in Studio | `CMS-03`, `MKT-03` |
+| D2.9 | Page builder: ≥ 15 blocks + 5 page templates | `MKT-02` |
+| D2.10 | Global settings, announcement bar, redirects via Edge Config, SEO tab | `MKT-05…07` |
+| D2.11 | Campaign releases, revision restore, delete protection | `MKT-04`, `MKT-16` |
+| D2.12 | GTM + Consent Mode v2 | `MKT-12` |
 
 ## Phase 3 — Shop (weeks 7–9)
 
@@ -58,7 +65,10 @@ Every deliverable has an owner, a format and an acceptance criterion. Requiremen
 | D4.3 | Stripe Checkout integration + webhooks | `PAY-01…05` |
 | D4.4 | Transactional emails (confirmation, reminder, cancellation) | `NOTIF-01…04` |
 | D4.5 | Manage-booking page (magic link) | `BOOK-08` |
-| D4.6 | Back-office: bookings, slots, manual booking, refunds | `OPS-01…06` |
+| D4.6 | Studio Bookings tool: bookings, manifests, manual booking, refunds | `OPS-01…06`, `MKT-10` |
+| D4.7 | Studio Availability: schedules, blackouts, seasonal prices + sync with guardrails | `BOOK-02`, `MKT-09` |
+| D4.8 | Promo codes in Studio | `MKT-08` |
+| D4.9 | Editable email copy + send-test | `MKT-11` |
 
 ## Phase 5 — Tailor-made trips (weeks 10–12)
 
@@ -80,3 +90,7 @@ Every deliverable has an owner, a format and an acceptance criterion. Requiremen
 | D6.6 | Go-live runbook & DNS cut-over | Executed; rollback tested |
 | D6.7 | Editor & operations training + recorded walkthroughs | Client team completes a booking and publishes a page unaided |
 | D6.8 | Hand-over pack (docs, credentials transfer, support SLA) | Signed off |
+| D6.9 | Marketer handbook + 10 videos in the Studio Help tab | Covers every task in 08 §4 |
+| D6.10 | **Marketer autonomy test** | ≥ 18/20 unaided, no booking-safety failure (08 §9) |
+| D6.11 | Change-request pipeline (issue form → Claude Code PR → preview → merge) | One real request completed end to end |
+| D6.12 | Support retainer & SLA signed | Before go-live |

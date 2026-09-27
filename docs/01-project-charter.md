@@ -16,9 +16,9 @@
 
 **Complication.** No single, well-designed place lets an international traveller *discover* Latvia, *book* experiences with live availability, *buy* related products (guides, gifts, vouchers) and *request* a tailor-made trip. Operators that try to build this typically end up with a WordPress site plus disconnected booking plug-ins, manual invoicing and no reliable data.
 
-**Question.** How do we launch a fast, editorially rich, commerce-capable travel platform that the client's team can run themselves, within a lean budget and a ~14-week window?
+**Question.** How do we launch a fast, editorially rich, commerce-capable travel platform that a **non-technical marketer** can run and keep healthy without a developer, within a lean budget and a ~14-week window?
 
-**Answer.** Build a headless platform on **Next.js + Vercel**, with **Sanity** as the editorial CMS, **Shopify** for physical/digital shop products, and **Stripe** for experience bookings and trip deposits. Operational data (availability, bookings, inquiries) lives in **Postgres**. Delivery is AI-assisted with **Claude Code** under a spec-driven (GSD) workflow, so every feature traces back to a requirement in the PRD.
+**Answer.** Build a headless platform on **Next.js + Vercel**, with **Sanity** as the editorial CMS, **Shopify** for physical/digital shop products, and **Stripe** for experience bookings and trip deposits. Operational data (availability, bookings, inquiries) lives in **Postgres**. The platform is built so that a **non-technical marketer runs it day to day** from one workspace, Sanity Studio. That covers pages, campaigns, promo codes, availability, SEO, redirects and bookings, with guardrails that prevent breaking the site. Technical upkeep is automated and backed by a support retainer. Delivery is AI-assisted with **Claude Code** under a spec-driven (GSD) workflow, so every feature traces back to a requirement in the PRD.
 
 ---
 
@@ -33,7 +33,7 @@ Targets are proposed and must be confirmed by the client (Q-B4).
 | O3 | Grow the shop | Shop orders / month | Baseline set at month 1, +20 % by month 6 |
 | O4 | Generate high-value leads | Qualified tailor-made inquiries / month | ≥ 20 by month 3 |
 | O5 | Be fast and findable | Core Web Vitals "Good" on ≥ 90 % of URLs; indexed pages | By launch + 30 days |
-| O6 | Client self-sufficiency | Editors publish content and manage bookings with no developer help | By launch |
+| O6 | Marketer self-sufficiency | Marketer passes the 20-task autonomy test unaided ([08 §9](./08-marketer-self-service.md#9-autonomy-test-uat-gate-m5)); 0 routine developer tickets per month | ≥ 18/20 at UAT (M5); 0 tickets after hyper-care |
 
 ---
 
@@ -50,6 +50,8 @@ Targets are proposed and must be confirmed by the client (Q-B4).
 7. **Multilingual** — EN at launch + up to 2 additional locales (TBC, Q-C1).
 8. **Foundations** — SEO, analytics with consent, GDPR, WCAG 2.1 AA accessibility, monitoring.
 9. **Claude Code setup** — CLAUDE.md, MCP servers, GSD planning files, CI.
+10. **Marketer self-service** — task-based Studio workspace, page builder + templates, campaign releases, promo codes, availability management, redirects, editable emails, GTM, in-Studio help, training, autonomy test ([08](./08-marketer-self-service.md)).
+11. **Low-touch maintenance** — automated dependency updates, monitoring, backups, change-request pipeline, support retainer.
 
 ### 3.2 Out of scope (v1) — candidates for v2
 
@@ -75,7 +77,7 @@ Full breakdown, acceptance criteria and owners: [02-deliverables.md](./02-delive
 | 3 Shop | Shopify headless catalogue, cart, checkout, webhooks |
 | 4 Bookings | Availability engine, Stripe checkout, emails, manage booking, back-office |
 | 5 Tailor-made | Inquiry → quote → deposit flow |
-| 6 Launch | QA, performance, accessibility, legal pages, go-live, hand-over |
+| 6 Launch | QA, performance, accessibility, legal pages, marketer training + autonomy test, go-live, hand-over |
 
 ---
 
@@ -90,7 +92,7 @@ Relative to kick-off (week 0). Dates are fixed once Phase 0 closes.
 | M2 Foundation live on preview URL | 4 | Studio usable, design system in Storybook/preview |
 | M3 Content site feature-complete | 7 | Client content entry starts |
 | M4 Commerce complete (shop + bookings) | 11 | End-to-end test purchases in Stripe/Shopify test mode |
-| M5 UAT sign-off | 13 | No open P1/P2 defects |
+| M5 UAT sign-off | 13 | No open P1/P2 defects; marketer autonomy test ≥ 18/20 |
 | M6 Go-live | 14 | Production cut-over, DNS, monitoring |
 | M7 Hyper-care end | 18 | Hand-over complete |
 
@@ -98,7 +100,7 @@ Relative to kick-off (week 0). Dates are fixed once Phase 0 closes.
 
 ## 6. Stakeholders & RACI
 
-| Activity | Client sponsor | Client content/ops | Delivery lead | Developer(s) + Claude Code | Designer |
+| Activity | Client sponsor | Client marketer / ops | Delivery lead | Developer(s) + Claude Code | Designer |
 |---|---|---|---|---|---|
 | Scope & budget decisions | **A** | C | R | I | I |
 | Brand & visual design | A | C | C | I | **R** |
@@ -107,6 +109,8 @@ Relative to kick-off (week 0). Dates are fixed once Phase 0 closes.
 | Content entry & translation | A | **R** | C | I | I |
 | Legal/compliance (T&Cs, travel licence, VAT) | **A/R** | C | C | I | I |
 | UAT & go-live decision | **A** | R | R | C | I |
+| Day-to-day site, campaigns, availability (post-launch) | A | **R** | I | I | I |
+| Technical maintenance & change requests (post-launch) | A | C | C | **R** | I |
 
 R = Responsible, A = Accountable, C = Consulted, I = Informed.
 
@@ -129,6 +133,9 @@ _TBC (Q-B5)._ Recurring platform costs are estimated in [06-architecture.md §12
 | R5 | **Overbooking** from concurrent checkouts or offline sales. | High | Low | Transactional holds with expiry; single source of truth for inventory (see Architecture §6). |
 | R6 | **VAT treatment** of travel services (EU Tour Operator Margin Scheme) affects pricing display and invoicing. | Medium | Medium | Accountant sign-off (Q-E2) before pricing logic is built. |
 | R7 | **Accessibility compliance.** European Accessibility Act applies to e-commerce since June 2025. | Medium | Medium | WCAG 2.1 AA as a Definition-of-Done criterion; automated + manual audits. |
+| R8 | **Self-service erodes quality** (off-brand pages, heavy tracking tags, SEO mistakes, booking conflicts). | Medium | Medium | Locked blocks, validation, booking-safe actions, tag performance budget, quarterly health check ([08 §6](./08-marketer-self-service.md#6-guardrails-how-we-stop-the-site-from-breaking)). |
+| R9 | **No technical owner after hand-over.** Dependencies age, incidents go unnoticed. | High | Medium | Automated updates + monitoring; support retainer agreed before launch (Q-F3). |
+| R10 | **Timeline pressure.** Self-service scope (page builder, Studio availability/bookings tools, guardrails, handbook) adds an estimated 2–3 weeks of effort. | Medium | High | Build blocks in parallel with Phase 2 pages; defer P1 MKT items to fast-follow; or extend to 16 weeks (decide with Q-B5). |
 
 ---
 
@@ -141,6 +148,7 @@ _TBC (Q-B5)._ Recurring platform costs are estimated in [06-architecture.md §12
 - The client has, or will open, **Shopify** (Basic plan or higher) and **Stripe** accounts in its own legal entity.
 - The client provides photography, copy and translations, or budgets for them.
 - English is the primary language.
+- One **non-technical marketer** manages the site day to day and may also run bookings (Q-F1). There is no in-house developer; technical upkeep is covered by automation and a retainer (Q-F3).
 
 **Constraints**
 

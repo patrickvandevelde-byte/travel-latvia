@@ -12,6 +12,7 @@ What this document covers: the information architecture, core page templates, pr
 4. **Local authenticity.** Latvian place names keep their diacritics (Rīga, Cēsis, Kuldīga, Ķemeri). Real photography, no stock clichés.
 5. **Accessible by default.** WCAG 2.1 AA, keyboard-complete booking flow, reduced-motion support.
 6. **Fast.** Static or cached pages, optimised images, minimal client JS outside the booking widget and cart.
+7. **Marketer-editable by default.** Every visible word, image, link and section comes from the CMS and is built from locked design-system blocks. A non-technical marketer can change it without breaking the layout (see [08-marketer-self-service.md](./08-marketer-self-service.md)).
 
 ---
 
@@ -37,8 +38,7 @@ What this document covers: the information architecture, core page templates, pr
 /booking/[ref]                      Manage booking (magic-link protected)
 /booking/confirmation               Post-payment confirmation
 /about · /contact · /legal/*        Static pages
-/studio                             Sanity Studio (editors)
-/admin                              Back-office (ops staff)
+/studio                             Sanity Studio: marketer workspace incl. Bookings tool
 ```
 
 Locale prefix: `/{locale}/…` for non-default locales (e.g. `/de/experiences/...`). English is served at the root.
@@ -86,7 +86,7 @@ Product → Add to cart (drawer) → Checkout (Shopify-hosted, branded) → Shop
 
 ### 4.3 Tailor-made trip
 
-Landing → multi-step form (dates, group, interests, budget, contact) → confirmation + email → ops qualifies in `/admin` → quote sent (email with Stripe payment link for the deposit) → paid → trip confirmed.
+Landing → multi-step form (dates, group, interests, budget, contact) → confirmation + email → ops qualifies in the Studio Bookings tool → quote sent (email with Stripe payment link for the deposit) → paid → trip confirmed.
 
 ### 4.4 Mixed intent (experience + shop)
 
@@ -115,6 +115,8 @@ The two checkouts stay separate (ADR-003). After a booking, the confirmation pag
 | `LocaleSwitcher`, `Header`, `Footer`, `Newsletter`, `TrustBar`, `ConsentBanner` | Global | |
 
 The component library is built with **Tailwind CSS + shadcn/ui (Radix primitives)** for accessibility. Tokens are defined as CSS variables.
+
+**Page-builder blocks** (the marketer's building kit) are listed in [08 §5](./08-marketer-self-service.md#5-page-builder-block-library). Every block ships with a Studio thumbnail, a description, defaults and a fixed set of variants. Designers design **blocks and variants**, not one-off pages.
 
 ---
 
@@ -148,3 +150,4 @@ Dark mode: not in v1 unless requested.
 2. Figma: design tokens, component library, key templates (Home, Experience detail + booking widget, Listing, Guide, PDP, Tailor-made), mobile + desktop.
 3. Clickable prototype of the booking flow for usability testing with 5 users.
 4. Figma ↔ code: tokens exported to `src/styles/tokens.css`; Code Connect mapping for core components (optional).
+5. Studio UX: task-based menu structure, block thumbnails, page templates, and handbook screenshots/videos for the marketer.

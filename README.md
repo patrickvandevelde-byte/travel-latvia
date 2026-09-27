@@ -1,6 +1,6 @@
 # Travel Latvia (working title)
 
-A headless travel platform: discover Latvia, book experiences, shop Latvian products, and request tailor-made trips.
+A headless travel platform: discover Latvia, book experiences, shop Latvian products, and request tailor-made trips. A non-technical marketer runs it day to day from Sanity Studio.
 
 **Status:** Phase 0 — discovery & spec. No application code yet.
 
@@ -15,6 +15,7 @@ A headless travel platform: discover Latvia, book experiences, shop Latvian prod
 | 05 | [PRD](docs/05-prd.md) | Requirements with IDs |
 | 06 | [Architecture](docs/06-architecture.md) | Stack, data models, flows, environments, ADRs |
 | 07 | [Client questions](docs/07-client-questions.md) | Open decisions blocking spec freeze |
+| 08 | [Marketer self-service](docs/08-marketer-self-service.md) | How a non-technical marketer runs the site; guardrails; maintenance; autonomy test |
 
 AI-assisted development: see [CLAUDE.md](CLAUDE.md) and [.planning/](.planning/) (GSD workflow).
 
