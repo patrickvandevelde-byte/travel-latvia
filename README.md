@@ -2,7 +2,13 @@
 
 A headless travel platform: discover Latvia, book experiences, shop Latvian products, and request tailor-made trips. A non-technical marketer runs it day to day from Sanity Studio.
 
-**Status:** Phase 0 — discovery & spec. No application code yet.
+**Status:** Phase 0 — discovery & spec. A Next.js placeholder (noindex) is deployed on Vercel; the real build starts in Phase 1.
+
+```bash
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm lint && pnpm typecheck && pnpm build
+```
 
 ## Documents
 

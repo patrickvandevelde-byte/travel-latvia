@@ -84,3 +84,5 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 - **Stripe:** test-mode objects, docs. Never use it against live mode without explicit approval.
 - **Shopify Dev:** Storefront/Admin API docs and GraphQL schema validation.
 - **GitHub:** built into the environment.
+
+@AGENTS.md

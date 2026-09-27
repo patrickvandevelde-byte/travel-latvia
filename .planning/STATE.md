@@ -7,6 +7,7 @@
 - Draft charter, deliverables, services, design, PRD, architecture, client questionnaire
 - Claude Code setup: `CLAUDE.md`, `.mcp.json`, `.env.example`, `.planning/`
 - Marketer self-service model (`docs/08`), MKT requirements, ADR-010…015
+- Next.js placeholder scaffold (noindex) + Vercel project linked to the GitHub repo
 
 ## Next
 - Send `docs/07-client-questions.md` to the client; log answers in its Answer log
