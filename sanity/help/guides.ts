@@ -56,6 +56,16 @@ export const helpGuides: HelpGuide[] = [
     tip: "Online booking and prices are added in a later phase.",
   },
   {
+    task: "T19",
+    title: "Handle a new enquiry",
+    steps: [
+      "Open Enquiries → New. Each form submission appears here, and you also get an email.",
+      "Open the enquiry to read the traveller's wishes, then reply from your own email.",
+      "Set the status (Replied, Quote sent, Booked or Not going ahead) and add notes for yourself.",
+      "Publish to save the status. Nothing from an enquiry is ever shown on the website.",
+    ],
+  },
+  {
     task: "T10",
     title: "Show an announcement bar",
     steps: [
