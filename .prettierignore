@@ -11,3 +11,4 @@ docs
 # Generated
 src/modules/content/sanity.types.ts
 sanity/schema.json
+sanity/seed/baltique.ndjson

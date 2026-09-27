@@ -1,5 +1,6 @@
 import { createImageUrlBuilder } from "@sanity/image-url";
 import { dataset, projectId } from "../../../sanity/env";
+import { demoImageUrl } from "./demo";
 
 export type SanityImage = {
   asset?: { _ref: string } | null;
@@ -14,6 +15,8 @@ const builder = createImageUrlBuilder({ projectId: projectId || "placeholder", d
 /** URL for a Sanity image at a given width, cropped around the editor's hotspot. */
 export function imageUrl(image: SanityImage | undefined, width: number, height?: number): string | null {
   if (!image?.asset?._ref) return null;
+  const local = demoImageUrl(image.asset._ref);
+  if (local) return local;
   let b = builder
     .image(image as Parameters<typeof builder.image>[0])
     .width(width)
