@@ -2,13 +2,24 @@
 
 A headless travel platform: discover Latvia, book experiences, shop Latvian products, and request tailor-made trips. A non-technical marketer runs it day to day from Sanity Studio.
 
-**Status:** Phase 0 — discovery & spec. A Next.js placeholder (noindex) is deployed on Vercel; the real build starts in Phase 1.
+**Status:** Phase 0 (discovery). The foundation and content site are built ahead; bookings and the shop wait on client decisions. See [.planning/STATE.md](.planning/STATE.md).
 
 ```bash
 pnpm install
-pnpm dev        # http://localhost:3000
-pnpm lint && pnpm typecheck && pnpm build
+pnpm dev        # site at http://localhost:3000, content studio at /studio
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
+
+Without Sanity settings the site shows a "coming soon" page and the Studio shows setup instructions.
+
+## Connecting services
+
+1. **Sanity:** create a project at sanity.io/manage with datasets `production` and `staging`.
+   - Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` in Vercel (Production → `production`; Preview and Development → `staging`).
+   - Add the site URLs (localhost, preview, production) under API → CORS origins, with credentials allowed.
+   - Add a webhook: `POST https://<site>/api/revalidate`, on create/update/delete, projection `{ _type, "slug": slug.current }`, with a secret. Store the secret as `SANITY_REVALIDATE_SECRET`.
+2. **Redirects (optional until launch):** create a Vercel Edge Config and connect it to the project, which sets `EDGE_CONFIG`. Then set `EDGE_CONFIG_ID` and `EDGE_CONFIG_WRITE_TOKEN` (a Vercel access token).
+3. **Search engines:** the site stays `noindex` until `SITE_LAUNCHED=true` is set in Production.
 
 ## Documents
 

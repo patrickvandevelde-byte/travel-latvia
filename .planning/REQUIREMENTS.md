@@ -8,18 +8,18 @@ Status: `todo` · `in-progress` · `done` · `blocked (Q-xx)`
 
 | ID | Summary | Pri | Phase | Status |
 |---|---|---|---|---|
-| CMS-01 | Studio at /studio, roles | P0 | 1 | todo |
-| CMS-02 | Schemas + validation | P0 | 1 | todo |
+| CMS-01 | Studio at /studio, roles | P0 | 1 | in-progress (Studio at /studio; SSO + roles need Sanity project, Q-F1) |
+| CMS-02 | Schemas + validation | P0 | 1 | done |
 | CMS-03 | Draft preview + visual editing | P0 | 2 | todo |
-| CMS-04 | Publish → revalidate < 60 s | P0 | 2 | todo |
+| CMS-04 | Publish → revalidate < 60 s | P0 | 2 | done (needs Sanity webhook configured) |
 | CMS-05 | Scheduled publishing / releases | P0 | 2 | todo |
-| CMS-06 | Redirect management | P0 | 2 | todo |
-| CONT-01 | Composable home | P0 | 2 | todo |
-| CONT-02 | Region & place pages | P0 | 2 | todo |
-| CONT-03 | Experience listing + filters | P0 | 2 | todo |
-| CONT-04 | Experience detail | P0 | 2 | todo |
-| CONT-05 | Guides / blog | P0 | 2 | todo |
-| CONT-06 | Practical info + static pages | P0 | 2 | todo |
+| CMS-06 | Redirect management | P0 | 2 | done (needs Edge Config connected) |
+| CONT-01 | Composable home | P0 | 2 | done |
+| CONT-02 | Region & place pages | P0 | 2 | done |
+| CONT-03 | Experience listing + filters | P0 | 2 | in-progress (listing done; filters pending) |
+| CONT-04 | Experience detail | P0 | 2 | done (display only; booking in Phase 4) |
+| CONT-05 | Guides / blog | P0 | 2 | done |
+| CONT-06 | Practical info + static pages | P0 | 2 | in-progress (page builder done; practical-info content pending) |
 | CONT-07 | Multi-day trip pages | P1 | 5 | blocked (Q-E1) |
 | CONT-08 | Site search | P1 | 2 | todo |
 | I18N-01 | Locale routing | P0 | 2 | blocked (Q-C1) |
@@ -27,8 +27,8 @@ Status: `todo` · `in-progress` · `done` · `blocked (Q-xx)`
 | I18N-03 | hreflang + localised slugs | P0 | 2 | todo |
 | I18N-04 | Localised emails | P1 | 4 | todo |
 | I18N-05 | EUR display; Shopify Markets | P1 | 3 | todo |
-| SEO-01 | Metadata | P0 | 2 | todo |
-| SEO-02 | Sitemaps / robots | P0 | 2 | todo |
+| SEO-01 | Metadata | P0 | 2 | done |
+| SEO-02 | Sitemaps / robots | P0 | 2 | done |
 | SEO-03 | Structured data | P0 | 2 | todo |
 | SEO-04 | Stable URLs + legacy redirects | P0 | 6 | blocked (Q-D3) |
 | SEO-05 | Dynamic OG images | P1 | 2 | todo |
@@ -75,13 +75,13 @@ Status: `todo` · `in-progress` · `done` · `blocked (Q-xx)`
 | ANLY-02 | Funnel events | P0 | 4 | blocked (Q-D4) |
 | ANLY-03 | Vercel Analytics + GA4/alt | P0 | 2 | todo |
 | ANLY-04 | Server-side conversions | P1 | 4 | todo |
-| MKT-01 | Task-based Studio structure + field help | P0 | 1 | todo |
-| MKT-02 | Page builder: blocks + templates | P0 | 2 | todo |
+| MKT-01 | Task-based Studio structure + field help | P0 | 1 | in-progress (task-based menu done; dashboard later) |
+| MKT-02 | Page builder: blocks + templates | P0 | 2 | in-progress (11 of 15 blocks; thumbnails + templates pending) |
 | MKT-03 | Visual editing + device preview | P0 | 2 | todo |
 | MKT-04 | Campaign releases | P0 | 2 | todo |
-| MKT-05 | Global settings, announcement, UI labels | P0 | 2 | todo |
-| MKT-06 | Redirects + auto-redirect on slug change | P0 | 2 | todo |
-| MKT-07 | SEO tab with previews/warnings | P0 | 2 | todo |
+| MKT-05 | Global settings, announcement, UI labels | P0 | 2 | in-progress (settings, menu, footer, announcement done; UI labels wait on Q-C1) |
+| MKT-06 | Redirects + auto-redirect on slug change | P0 | 2 | done (auto-redirect on slug change + Edge Config sync) |
+| MKT-07 | SEO tab with previews/warnings | P0 | 2 | in-progress (SEO tab + warnings done; Google/social preview pending) |
 | MKT-08 | Promo codes in Studio | P0 | 4 | todo |
 | MKT-09 | Availability in Studio with guardrails | P0 | 4 | blocked (Q-B6) |
 | MKT-10 | Bookings tool in Studio | P0 | 4 | todo |
@@ -90,11 +90,11 @@ Status: `todo` · `in-progress` · `done` · `blocked (Q-xx)`
 | MKT-13 | AI Assist (translate, alt text, SEO) | P1 | 2 | blocked (Q-F6) |
 | MKT-14 | Configurable forms | P1 | 2 | todo |
 | MKT-15 | Studio dashboard + to-do | P1 | 6 | todo |
-| MKT-16 | Restore + delete protection | P0 | 2 | todo |
+| MKT-16 | Restore + delete protection | P0 | 2 | in-progress (history/restore + reference-safe deletes are Sanity built-ins; booking guards Phase 4) |
 | MKT-17 | Least-privilege roles | P0 | 1 | blocked (Q-F1) |
-| MKT-18 | Help hub in Studio | P0 | 6 | todo |
+| MKT-18 | Help hub in Studio | P0 | 6 | in-progress (Help tool with 10 guides) |
 | MKT-19 | Change-request pipeline (Claude Code) | P1 | 6 | blocked (Q-F3) |
-| MKT-20 | Automated maintenance | P0 | 1 | todo |
+| MKT-20 | Automated maintenance | P0 | 1 | in-progress (CI, Renovate, backup workflow done; uptime + Sentry need accounts) |
 | NFR-01…10 | Non-functional (perf, a11y, security, privacy…) | P0 | all | todo |
 | NFR-11 | Marketer autonomy test ≥ 18/20 | P0 | 6 | todo |
 | COMP-01…05 | Compliance support | P0 | 6 | blocked (Q-E1, Q-E2, Q-E4) |

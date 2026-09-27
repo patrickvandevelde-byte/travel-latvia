@@ -31,18 +31,19 @@ Headless travel platform for Latvia. It covers editorial discovery content, expe
 
 Next.js (App Router, TS strict) · Tailwind + shadcn/ui · Sanity (embedded Studio at `/studio`, next-sanity, TypeGen, AI Assist, custom Studio tools) · Shopify Storefront API · Stripe Checkout · Postgres (Neon) + Drizzle · Vercel Edge Config · GTM · Renovate · Resend + React Email · next-intl · Zod · Vitest · Playwright · pnpm.
 
-## Commands (available once Phase 1 scaffold lands)
+## Commands
 
 ```bash
 pnpm dev                 # local dev (needs .env.local — `vercel env pull .env.local`)
 pnpm build && pnpm start
 pnpm lint && pnpm typecheck
-pnpm test                # vitest
-pnpm test:e2e            # playwright
-pnpm db:generate         # drizzle-kit generate
-pnpm db:migrate          # apply migrations
+pnpm format              # prettier (format:check in CI)
+pnpm test                # vitest unit tests (tests/unit)
+pnpm test:e2e            # playwright smoke + axe a11y (tests/e2e); in cloud sessions set
+                         # PLAYWRIGHT_CHROMIUM_PATH=/opt/pw-browsers/chromium
 pnpm sanity:typegen      # regenerate GROQ types after schema/query changes
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
+pnpm sanity:validate     # validate Studio schema offline
+# Phase 4: pnpm db:generate / db:migrate (Drizzle), stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
 ## Non-negotiable rules
@@ -76,6 +77,9 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 - Shopify GraphQL lives in `src/modules/shop/queries/`, typed via codegen.
 - Server Components by default; `"use client"` only for interactive islands (booking widget, cart, forms).
 - Cache tags: `sanity:<type>:<slug>`, `shopify:product:<handle>`, `shopify:collection:<handle>`.
+- Content fetching goes through `sanityFetch` (`src/modules/content/client.ts`); it returns null when Sanity isn't configured, so every page must render a sensible empty state.
+- Icons: import per icon from `@sanity/icons/<Name>` (v5 has no named exports on the root).
+- Next.js 16: `proxy.ts` replaces middleware; `params` are Promises; `revalidateTag(tag, "max")` needs a profile.
 
 ## MCP servers (see `.mcp.json`)
 
