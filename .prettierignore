@@ -1,0 +1,13 @@
+pnpm-lock.yaml
+.next
+node_modules
+coverage
+playwright-report
+test-results
+# Docs are hand-formatted Markdown
+*.md
+docs
+.planning
+# Generated
+src/modules/content/sanity.types.ts
+sanity/schema.json
