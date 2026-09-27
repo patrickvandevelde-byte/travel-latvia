@@ -33,7 +33,7 @@ Without Sanity settings the site shows a "coming soon" page and the Studio shows
 | 06 | [Architecture](docs/06-architecture.md) | Stack, data models, flows, environments, ADRs |
 | 07 | [Client questions](docs/07-client-questions.md) | Open decisions blocking spec freeze |
 | 08 | [Marketer self-service](docs/08-marketer-self-service.md) | How a non-technical marketer runs the site; guardrails; maintenance; autonomy test |
-| 09 | [Finish questionnaire](docs/09-finish-questionnaire.md) | Decisions, accounts and content the owner/marketer must supply to finish and launch |
+| 09 | [Finish questionnaire](docs/09-finish-questionnaire.md) · [NL](docs/09-finish-questionnaire.nl.md) | Decisions, accounts and content the owner/marketer must supply to finish and launch |
 
 AI-assisted development: see [CLAUDE.md](CLAUDE.md) and [.planning/](.planning/) (GSD workflow).
 
