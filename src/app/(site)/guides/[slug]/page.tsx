@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { formatRigaDateTime } from "@/lib/dates";
 import { sanityFetch } from "@/modules/content/client";
 import { buildMetadata } from "@/modules/content/metadata";
-import { guideQuery } from "@/modules/content/queries";
+import { guideQuery, settingsQuery } from "@/modules/content/queries";
 import type { Section } from "@/modules/content/types";
 
 type Params = PageProps<"/guides/[slug]">;
@@ -29,7 +29,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function GuidePage({ params }: Params) {
   const { slug } = await params;
-  const data = await load(slug);
+  const [data, settings] = await Promise.all([
+    load(slug),
+    sanityFetch(settingsQuery, {}, { tags: ["sanity:siteSettings"] }),
+  ]);
   if (!data?.title) notFound();
   return (
     <article>
@@ -51,14 +54,14 @@ export default async function GuidePage({ params }: Params) {
           </time>
         ) : null}
       </Container>
-      <Blocks sections={data.sections as Section[] | null} />
+      <Blocks sections={data.sections as Section[] | null} contact={settings} />
       {data.related?.length ? (
         <Container className="py-10">
-          <h2 className="text-forest mb-4 text-2xl font-semibold">Keep reading</h2>
+          <h2 className="display mb-4 text-3xl">Keep reading</h2>
           <ul className="grid gap-4 sm:grid-cols-3">
             {data.related.filter(Boolean).map((g) => (
               <li key={g._id}>
-                <Link href={`/guides/${g.slug}`} className="text-sea font-medium hover:underline">
+                <Link href={`/guides/${g.slug}`} className="text-red font-medium hover:underline">
                   {g.title}
                 </Link>
               </li>

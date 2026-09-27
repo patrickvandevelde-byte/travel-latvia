@@ -26,13 +26,13 @@ export function ExperienceCard({ item }: { item: ExperienceCardData }) {
         {item.badges?.length ? (
           <ul className="flex flex-wrap gap-1.5" aria-label="Highlights">
             {item.badges.map((b) => (
-              <li key={b} className="bg-sand rounded-full px-2 py-0.5 text-xs font-medium">
+              <li key={b} className="bg-cream-deep rounded-full px-2 py-0.5 text-xs font-medium">
                 {BADGE_LABELS[b] ?? b}
               </li>
             ))}
           </ul>
         ) : null}
-        {item.region ? <p className="text-sea text-sm">{item.region}</p> : null}
+        {item.region ? <p className="text-forest text-sm">{item.region}</p> : null}
         <h3 className="text-forest text-lg leading-snug font-semibold">
           <Link
             href={`/experiences/${item.slug}`}

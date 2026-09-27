@@ -451,4 +451,8 @@ Client events fire only after consent. Server events are first-party and contain
 | **ADR-014** | **Low-touch maintenance:** Renovate + CI auto-merge for patches, monitoring to the maintainer, Claude Code GitHub Action for plain-language change requests (human-reviewed merge). | Proposed |
 | **ADR-015** | **Transactional email copy in Sanity,** layout in React Email. The marketer edits words; the code guarantees rendering across mail clients. | Proposed |
 
+| **ADR-016** | **Scope pivot to the Baltique briefing (docs/10).** The client is a boutique agency selling bespoke journeys and hunting trips through personal enquiry. v1 = five brochure pages, guides, and an enquiry pipeline; no online booking, no shop, no experience catalogue. Bookings (Phase 4), shop (Phase 3) and Postgres stay in the roadmap as **options**, not commitments, pending Q-B6/Q-B2. | Accepted (from briefing) |
+| **ADR-017** | **Enquiries stored in Sanity**, not Postgres: an `enquiry` document per submission, listed under Enquiries in the Studio, with status and notes; owner notified by email (Resend REST). Keeps one workspace for a solo marketer at a few enquiries per week. Revisit if volume or a CRM (Q-D4) warrants it. | Accepted |
+| **ADR-018** | **Demo content mode.** Without a Sanity project the site serves the seed documents (mockup copy) through groq-js, so previews show the real design; the same seed exports to NDJSON for the first import. Off automatically once `NEXT_PUBLIC_SANITY_PROJECT_ID` is set. | Accepted |
+
 **Payment gateway caveat:** confirm which payment providers Shopify offers the client's legal entity. If Shopify Payments isn't available in its country, a third-party gateway adds Shopify transaction fees (Q-E3).

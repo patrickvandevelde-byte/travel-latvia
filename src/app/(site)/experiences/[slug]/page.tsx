@@ -53,7 +53,10 @@ export default async function ExperiencePage({ params }: Params) {
     <>
       <Container className="pt-8">
         {data.region ? (
-          <Link href={`/destinations/${data.region.slug}`} className="text-sea text-sm font-semibold hover:underline">
+          <Link
+            href={`/destinations/${data.region.slug}`}
+            className="text-forest text-sm font-semibold hover:underline"
+          >
             {data.region.title}
           </Link>
         ) : null}
@@ -91,7 +94,7 @@ export default async function ExperiencePage({ params }: Params) {
               <ul className="mt-3 space-y-2">
                 {data.highlights.map((h) => (
                   <li key={h} className="flex gap-2">
-                    <span aria-hidden="true" className="text-sea">
+                    <span aria-hidden="true" className="text-forest">
                       ✓
                     </span>
                     {h}
@@ -107,11 +110,11 @@ export default async function ExperiencePage({ params }: Params) {
           {data.itinerary?.length ? (
             <section>
               <h2 className="text-forest text-xl font-semibold">Itinerary</h2>
-              <ol className="border-sand mt-4 space-y-4 border-l-2 pl-6">
+              <ol className="border-line mt-4 space-y-4 border-l-2 pl-6">
                 {data.itinerary.map((stop) => (
                   <li key={stop._key}>
                     <p className="font-semibold">
-                      {stop.time ? <span className="text-sea mr-2">{stop.time}</span> : null}
+                      {stop.time ? <span className="text-forest mr-2">{stop.time}</span> : null}
                       {stop.title}
                     </p>
                     {stop.description ? <p className="mt-1 text-sm">{stop.description}</p> : null}
@@ -134,7 +137,7 @@ export default async function ExperiencePage({ params }: Params) {
                   href={`https://www.google.com/maps/search/?api=1&query=${data.meetingPoint.location.lat},${data.meetingPoint.location.lng}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sea mt-2 inline-block underline underline-offset-2"
+                  className="text-forest mt-2 inline-block underline underline-offset-2"
                 >
                   Open in Google Maps
                 </a>
@@ -192,7 +195,7 @@ export default async function ExperiencePage({ params }: Params) {
               </div>
             ) : null}
           </dl>
-          <p className="bg-sand mt-6 rounded-lg p-3 text-sm">Online booking opens soon.</p>
+          <p className="bg-cream-deep mt-6 rounded-lg p-3 text-sm">Online booking opens soon.</p>
         </aside>
       </Container>
 

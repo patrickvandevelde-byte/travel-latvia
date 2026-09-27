@@ -79,7 +79,7 @@ One owner per data type. Everything else reads from or caches that owner.
 | Payments, refunds, payouts | **Stripe** | Postgres (via webhooks) | Never trust client-side payment state |
 | Shop products, variants, stock, prices | **Shopify** | Web (Storefront API), Sanity (via Connect, read-only) | Editorial enrichment in Sanity only |
 | Shop orders, shipping, fulfilment | **Shopify** | Shopify admin | Not duplicated in Postgres in v1 |
-| Tailor-made inquiries & quotes | **Postgres** | Back-office | Optional CRM sync in v2 |
+| Tailor-made enquiries | **Sanity** (`enquiry` documents, ADR-017) | Studio → Enquiries; owner email | Quotes stay in email for v1; CRM sync later (Q-D4) |
 | Media (photos, video) | **Sanity** assets | Web via Sanity image CDN | Shopify product images stay in Shopify |
 | Translations (content) | **Sanity** (document-level i18n) | Web | Marketing UI labels in Sanity `uiStrings`; system strings (validation errors) in repo |
 

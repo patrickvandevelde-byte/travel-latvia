@@ -1,6 +1,6 @@
 # Travel Latvia (working title)
 
-A headless travel platform: discover Latvia, book experiences, shop Latvian products, and request tailor-made trips. A non-technical marketer runs it day to day from Sanity Studio.
+Website and content platform for **Baltique**, a boutique agency for bespoke journeys and hunting trips in Latvia (briefing: `docs/10`). A non-technical owner runs it day to day from Sanity Studio.
 
 **Status:** Phase 0 (discovery). The foundation and content site are built ahead; bookings and the shop wait on client decisions. See [.planning/STATE.md](.planning/STATE.md).
 
@@ -10,13 +10,15 @@ pnpm dev        # site at http://localhost:3000, content studio at /studio
 pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
-Without Sanity settings the site shows a "coming soon" page and the Studio shows setup instructions.
+Without Sanity settings the site renders the mockup content in demo mode (banner at the top) and the Studio shows setup instructions.
 
 ## Connecting services
 
 1. **Sanity:** create a project at sanity.io/manage with datasets `production` and `staging`.
    - Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` in Vercel (Production → `production`; Preview and Development → `staging`).
    - Add the site URLs (localhost, preview, production) under API → CORS origins, with credentials allowed.
+   - Import the launch content: `pnpm seed:ndjson`, then `pnpm exec sanity dataset import sanity/seed/baltique.ndjson staging --replace`.
+   - For the enquiry form, add a token with Editor rights as `SANITY_API_WRITE_TOKEN`, and `RESEND_API_KEY` + `EMAIL_FROM` for owner notifications.
    - Add a webhook: `POST https://<site>/api/revalidate`, on create/update/delete, projection `{ _type, "slug": slug.current }`, with a secret. Store the secret as `SANITY_REVALIDATE_SECRET`.
 2. **Redirects (optional until launch):** create a Vercel Edge Config and connect it to the project, which sets `EDGE_CONFIG`. Then set `EDGE_CONFIG_ID` and `EDGE_CONFIG_WRITE_TOKEN` (a Vercel access token).
 3. **Search engines:** the site stays `noindex` until `SITE_LAUNCHED=true` is set in Production.
@@ -33,7 +35,8 @@ Without Sanity settings the site shows a "coming soon" page and the Studio shows
 | 06 | [Architecture](docs/06-architecture.md) | Stack, data models, flows, environments, ADRs |
 | 07 | [Client questions](docs/07-client-questions.md) | Open decisions blocking spec freeze |
 | 08 | [Marketer self-service](docs/08-marketer-self-service.md) | How a non-technical marketer runs the site; guardrails; maintenance; autonomy test |
-| 09 | [Finish questionnaire](docs/09-finish-questionnaire.md) · [NL](docs/09-finish-questionnaire.nl.md) | Decisions, accounts and content the owner/marketer must supply to finish and launch |
+| 09 | [Finish questionnaire](docs/09-finish-questionnaire.md) · [NL](docs/09-finish-questionnaire.nl.md) · [Word](docs/Baltique-vragenlijst-afwerking-website.docx) | Decisions, accounts and content the owner/marketer must supply to finish and launch |
+| 10 | [Baltique briefing spec](docs/10-baltique-briefing-spec.md) | The client's mockup distilled: pages, copy, tokens, asset licensing, open items |
 
 AI-assisted development: see [CLAUDE.md](CLAUDE.md) and [.planning/](.planning/) (GSD workflow).
 

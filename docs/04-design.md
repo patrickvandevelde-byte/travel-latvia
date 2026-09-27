@@ -120,29 +120,35 @@ The component library is built with **Tailwind CSS + shadcn/ui (Radix primitives
 
 ---
 
-## 6. Proposed visual direction: "Baltic Light" (placeholder until brand inputs arrive)
+## 6. Visual identity: Baltique (from the Canva mockup, docs/10)
 
-Inspired by the Latvian landscape: long northern light, pine forest, the Baltic sea, linen and amber.
+Replaces the earlier "Baltic Light" placeholder. Sampled from the mockup and implemented in `src/app/(site)/globals.css`.
 
 | Token | Value | Use |
 |---|---|---|
-| `--color-ink` | `#1B2430` | Body text |
-| `--color-forest` | `#1F4D3A` | Primary (pine forest) |
-| `--color-sea` | `#2F6E8E` | Secondary / links (Baltic sea) |
-| `--color-amber` | `#D98E04` | Accent / CTAs (amber) |
-| `--color-carmine` | `#9E3039` | Sparing highlight (echoes the Latvian flag's carmine red) |
-| `--color-linen` | `#F5F1E8` | Page background |
-| `--color-sand` | `#E8DFCC` | Surfaces / cards |
-| Display font | A characterful serif (e.g. *Fraunces*) | Headlines |
-| Body font | A humanist sans (e.g. *Inter* / *Source Sans 3*) | UI and body |
-| Radius | 12 px cards, 999 px pills | |
-| Motifs | Subtle Latvian ornament (*zīmes*) as dividers | Use respectfully and sparingly |
+| `--color-cream` | `#FEF7EF` | Page background |
+| `--color-cream-deep` | `#F6EBDD` | Footer band |
+| `--color-red` | `#BD020A` | Headings, nav, outlines, stamp logo |
+| `--color-forest` | `#2F4A2A` | Primary button ("Send"), handwritten accents |
+| `--color-ink` | `#2B2420` | Body text |
+| Display font | **Instrument Serif** | h1/h2/h3, condensed serif, red |
+| Script font | **Caveat** | Handwritten taglines ("discover the undiscovered"), rotated −6° |
+| Body font | **DM Sans** | Everything else |
+| Radii | 28 px panels, 18 px images, pill buttons | |
+| Logo | Red postage-stamp wordmark, rotated −6° in the header and +10° over the footer | |
 
-All colour pairs must pass WCAG AA contrast. Amber on linen fails for body text, so amber is used only for CTAs with ink text on top.
+Layout: 1200 px container, two-column feature blocks, three-column card grids, single column below 760 px.
 
-Dark mode: not in v1 unless requested.
+### Pages (mockup structure, built from blocks)
 
----
+| Page | Sections |
+|---|---|
+| Home | Brand hero (name + script + pill) · Feature "Four seasons. Endless forests." · Feature hunting · Feature "A country waiting to be discovered." · Plan your journey form · Itineraries carousel · Reviews (hidden until real quotes exist) |
+| Services `/services` | Page title "What we offer / only in Latvia" · Feature bespoke journeys (label "Journeys shaped around you") · Feature hunting trips ("Hunt the way it used to be") · Form |
+| Itineraries `/guides` | Page title "Our curated guides / beyond bucket lists" · Two-column intro · Guide grid with a "Get in touch anyway" card |
+| About `/about` | Feature "Why I started" (7 paragraphs, 4x4 photo) · Polaroid strip |
+| Contact `/contact` | Page title over photo with contact card · Form |
+| Footer | Stamp, photo panel, headline, founder + email + phone, icons (Instagram, email, WhatsApp), legal links |
 
 ## 7. Design deliverables
 

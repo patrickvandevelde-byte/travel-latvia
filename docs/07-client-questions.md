@@ -102,4 +102,11 @@
 
 | Q | Answer | Date | Impact (doc/ADR updated) |
 |---|---|---|---|
-| | | | |
+| Q-A2 | Brand **Baltique**; email domain balt-run.com (site domain TBC) | 2026-09-27 (briefing) | Design §6, seed content |
+| Q-A3 | Logo, colours, fonts from the Canva mockup; no tone-of-voice guide | 2026-09-27 (briefing) | Design §6, globals.css |
+| Q-B1 / Q-B6 | Bespoke journeys + hunting trips via personal enquiry; no shop, no online booking (to confirm) | 2026-09-27 (briefing) | ADR-016 |
+| Q-C1 | EN at launch, NL planned | 2026-09-27 (briefing) | I18N pending |
+| Q-C3 | 5 photos are watermarked Getty comps; rights unknown for the rest | 2026-09-27 (briefing) | Blocks launch |
+| Q-D2 / Q-F1 | Fabienne Verschelde runs everything; replies within a week | 2026-09-27 (briefing) | Roles: single admin |
+| Q-D5 | Email, phone, WhatsApp | 2026-09-27 (briefing) | Footer, contact card |
+| Q-E1 | Trips combine stays, guides, activities → package travel rules apply; registration status unknown | 2026-09-27 (inferred) | Risk R2 stays open |

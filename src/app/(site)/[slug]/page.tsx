@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Blocks } from "@/components/blocks/Blocks";
 import { sanityFetch } from "@/modules/content/client";
 import { buildMetadata } from "@/modules/content/metadata";
-import { pageQuery } from "@/modules/content/queries";
+import { pageQuery, settingsQuery } from "@/modules/content/queries";
 
 const load = (slug: string) => sanityFetch(pageQuery, { slug }, { tags: [`sanity:page:${slug}`] });
 
@@ -15,15 +15,25 @@ export async function generateMetadata({ params }: PageProps<"/[slug]">): Promis
 
 export default async function LandingPage({ params }: PageProps<"/[slug]">) {
   const { slug } = await params;
-  const page = await load(slug);
+  const [page, settings] = await Promise.all([
+    load(slug),
+    sanityFetch(settingsQuery, {}, { tags: ["sanity:siteSettings"] }),
+  ]);
   if (!page) notFound();
-  const startsWithHero = page.sections?.[0]?._type === "heroBlock";
+  // These sections render the page's own h1; anything else gets the title above.
+  const first = page.sections?.[0];
+  const startsWithHero =
+    first?._type === "heroBlock" ||
+    first?._type === "pageHeroBlock" ||
+    (first?._type === "featureBlock" && !!first.heading);
   return (
     <>
       {startsWithHero ? null : (
-        <h1 className="text-forest mx-auto mt-12 w-full max-w-6xl px-4 text-4xl font-semibold sm:px-6">{page.title}</h1>
+        <h1 className="display mx-auto mt-12 w-full max-w-6xl px-4 text-5xl sm:px-6 sm:text-6xl lg:px-8">
+          {page.title}
+        </h1>
       )}
-      <Blocks sections={page.sections} />
+      <Blocks sections={page.sections} contact={settings} />
     </>
   );
 }
