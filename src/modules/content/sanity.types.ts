@@ -21,6 +21,75 @@ type ArrayOf<T> = Array<
 >;
 
 // Source: sanity/schema.json
+export type EnquiryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "enquiry";
+};
+
+export type Trip = {
+  _id: string;
+  _type: "trip";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  status?: "planned" | "confirmed" | "completed" | "cancelled";
+  kind?: "journey" | "hunting";
+  tripType?: string;
+  startDate?: string;
+  endDate?: string;
+  enquiry?: EnquiryReference;
+  lead?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
+  travellers?: Array<
+    {
+      _key: string;
+    } & Traveller
+  >;
+  itinerary?: Array<
+    {
+      _key: string;
+    } & ItineraryDay
+  >;
+  checklist?: Array<
+    {
+      _key: string;
+    } & CheckItem
+  >;
+  internalNotes?: string;
+};
+
+export type CheckItem = {
+  _type: "checkItem";
+  label?: string;
+  done?: boolean;
+};
+
+export type ItineraryDay = {
+  _type: "itineraryDay";
+  date?: string;
+  location?: string;
+  programme?: string;
+  contactName?: string;
+  contactPhone?: string;
+};
+
+export type Traveller = {
+  _type: "traveller";
+  fullName?: string;
+  ageGroup?: "adult" | "child";
+  dietary?: string;
+  medical?: string;
+  notes?: string;
+  huntingLicence?: boolean;
+  insurance?: boolean;
+};
+
 export type Enquiry = {
   _id: string;
   _type: "enquiry";
@@ -901,6 +970,11 @@ export type SanityImageAsset = {
 };
 
 export type AllSanitySchemaTypes =
+  | EnquiryReference
+  | Trip
+  | CheckItem
+  | ItineraryDay
+  | Traveller
   | Enquiry
   | Redirect
   | Announcement

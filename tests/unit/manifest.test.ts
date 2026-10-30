@@ -3,6 +3,7 @@ import {
   addDays,
   DEFAULT_CHECKLIST,
   exportFileName,
+  formatCompactRange,
   formatDateRange,
   itineraryRows,
   readiness,
@@ -58,6 +59,12 @@ describe("calendar dates", () => {
     expect(formatDateRange("2027-12-30", "2028-01-02")).toBe("Thu 30 Dec 2027 – Sun 2 Jan 2028 (4 days)");
     expect(formatDateRange("2027-10-14", "2027-10-14")).toBe("Thu 14 Oct 2027 (1 day)");
     expect(formatDateRange("", "")).toBe("Dates not set");
+  });
+  it("formats a compact range for list previews", () => {
+    expect(formatCompactRange("2027-10-14", "2027-10-19")).toBe("14 Oct – 19 Oct 2027");
+    expect(formatCompactRange("2027-12-30", "2028-01-02")).toBe("30 Dec 2027 – 2 Jan 2028");
+    expect(formatCompactRange("2027-10-14", "")).toBe("14 Oct 2027");
+    expect(formatCompactRange("", "")).toBe("Dates not set");
   });
 });
 

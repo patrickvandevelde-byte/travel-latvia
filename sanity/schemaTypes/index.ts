@@ -7,6 +7,7 @@ import { page } from "./documents/page";
 import { place } from "./documents/place";
 import { redirect } from "./documents/redirect";
 import { region } from "./documents/region";
+import { checkItem, itineraryDay, traveller, trip } from "./documents/trip";
 import { accessibleImage } from "./objects/accessibleImage";
 import { faqItem } from "./objects/faqItem";
 import { link } from "./objects/link";
@@ -45,4 +46,9 @@ export const schemaTypes = [
   author,
   redirect,
   enquiry,
+  // operations (never queried by the website)
+  traveller,
+  itineraryDay,
+  checkItem,
+  trip,
 ];

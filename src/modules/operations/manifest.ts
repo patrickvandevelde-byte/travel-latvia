@@ -148,6 +148,15 @@ export function formatLongDate(dateKey: string, locale = "en-GB"): string {
   return get ? `${get("day")} ${get("month")} ${get("year")}` : dateKey;
 }
 
+/** "14 Oct – 19 Oct 2027", for list previews. */
+export function formatCompactRange(startDate: string, endDate: string, locale = "en-GB"): string {
+  if (!isDateKey(startDate)) return isDateKey(endDate) ? `until ${formatLongDate(endDate, locale)}` : "Dates not set";
+  if (!isDateKey(endDate) || startDate === endDate) return formatLongDate(startDate, locale);
+  const sameYear = startDate.slice(0, 4) === endDate.slice(0, 4);
+  const start = sameYear ? formatShortDate(startDate, locale) : formatLongDate(startDate, locale);
+  return `${start} – ${formatLongDate(endDate, locale)}`;
+}
+
 /** "Thu 14 Oct – Tue 19 Oct 2027 (6 days)" */
 export function formatDateRange(startDate: string, endDate: string, locale = "en-GB"): string {
   if (!isDateKey(startDate) && !isDateKey(endDate)) return "Dates not set";
