@@ -3,6 +3,8 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { CreateJourneyAction } from "./sanity/actions/createJourney";
+import { withTripDeleteGuard } from "./sanity/actions/guardTripDelete";
 import { withAutomaticRedirect } from "./sanity/actions/publishWithRedirect";
 import { apiVersion, dataset, projectId, studioBasePath } from "./sanity/env";
 import { schemaTypes, singletonTypes, systemTypes } from "./sanity/schemaTypes";
@@ -27,6 +29,12 @@ export default defineConfig({
     actions: (actions, { schemaType }) => {
       if (singletonTypes.has(schemaType)) {
         return actions.filter(({ action }) => action && ["publish", "discardChanges", "restore"].includes(action));
+      }
+      if (schemaType === "enquiry") {
+        return [...actions, CreateJourneyAction];
+      }
+      if (schemaType === "trip") {
+        return actions.map((a) => (a.action === "delete" ? withTripDeleteGuard(a) : a));
       }
       if (typesWithAddress.has(schemaType)) {
         return actions.map((a) => (a.action === "publish" ? withAutomaticRedirect(a) : a));
