@@ -62,7 +62,7 @@ Status: `todo` · `in-progress` · `done` · `blocked (Q-xx)`
 | NOTIF-05 | Newsletter sign-up | P1 | 2 | blocked (Q-D4) |
 | OPS-01 | Bookings tool in Studio + roles | P0 | 4 | todo |
 | OPS-02 | Bookings list/detail | P0 | 4 | todo |
-| OPS-03 | Daily manifest export | P0 | 4 | todo |
+| OPS-03 | Manifest export (journey manifest, ADR-019; slot manifest) | P0 | 4 | in-progress (journey manifest done; slot manifest pending Q-B6) |
 | OPS-04 | Manage schedules/slots | P0 | 4 | todo |
 | OPS-05 | Manual bookings | P0 | 4 | todo |
 | OPS-06 | Cancel/refund + audit log | P0 | 4 | todo |

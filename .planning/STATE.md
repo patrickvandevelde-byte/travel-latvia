@@ -1,7 +1,7 @@
 # STATE
 
 **Current phase:** 2 — Content site (Baltique scope, ADR-016). Design implemented from the briefing (docs/10).
-**Last updated:** 2026-09-27
+**Last updated:** 2026-10-30
 
 ## Done
 - Draft charter, deliverables, services, design, PRD, architecture, client questionnaire
@@ -20,6 +20,11 @@
   - Enquiry pipeline: validated form → `/api/enquiries` → Sanity `enquiry` document + owner email; mailto fallback until configured; Studio "Enquiries" menu
   - Demo content mode (groq-js over the seed) so previews render without Sanity; `pnpm seed:ndjson` for the first import
   - Playwright: h1/menu/form/API checks and axe WCAG 2.1 AA on all five pages, desktop + mobile
+- Journey manifest (OPS-03 re-scoped, ADR-019, docs/11), 2026-10-30:
+  - `trip` ("Journey") schema with travellers, day by day, checklist, internal notes; hunting-only licence fields
+  - Studio Operations menu (Departing soon, Upcoming, Past, All); Create journey / Open journey on enquiries; delete guard on upcoming journeys
+  - Manifest tab: readiness checks, print / Save as PDF (A4), travellers CSV, WhatsApp summary, internal-notes switch
+  - Domain module `src/modules/operations/` with unit tests; handbook guides T19 (extra step) and T24
 
 ## Next
 - Send `docs/07-client-questions.md` to the client; log answers in its Answer log
@@ -51,3 +56,4 @@
 |---|---|---|
 | 2026-09-27 | Proposed stack: Next.js/Vercel + Sanity + Shopify (shop) + Stripe (bookings) + Postgres | ADR-001…009 |
 | 2026-09-27 | Non-technical marketer self-service is a core requirement: Studio as single workspace, availability/promos/redirects/email copy in Sanity, automated maintenance | ADR-010…015 |
+| 2026-10-30 | OPS-03 re-scoped to a per-journey manifest in Sanity (trip document, Operations menu, Manifest tab); per-slot manifest over Postgres stays an option behind Q-B6 | ADR-019 |

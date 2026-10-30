@@ -63,7 +63,21 @@ export const helpGuides: HelpGuide[] = [
       "Open the enquiry to read the traveller's wishes, then reply from your own email.",
       "Set the status (Replied, Quote sent, Booked or Not going ahead) and add notes for yourself.",
       "Publish to save the status. Nothing from an enquiry is ever shown on the website.",
+      "When the trip is going ahead, click Create journey in the document menu (⋮). The journey opens prefilled.",
     ],
+    tip: "Once a journey exists for the enquiry, the same menu item reads Open journey and takes you to it.",
+  },
+  {
+    task: "T24",
+    title: "Prepare and print a journey manifest",
+    steps: [
+      "Open Operations → Departing soon and click the journey.",
+      "Fill in Travellers, Day by day and the Checklist, then Publish. The Manifest tab shows what is still missing.",
+      "Switch off Include internal notes before printing for a lodge or guide: your notes and the to-do list are left out.",
+      "Click Print / Save as PDF and choose Save as PDF as the printer for a file. Copy for WhatsApp gives a text version; Download travellers (CSV) opens in Excel.",
+      "A journey is off? Set its status to Cancelled instead of deleting it, so the record stays.",
+    ],
+    tip: "Lists refresh when you reload the Studio: a tab left open overnight still shows yesterday's Departing soon.",
   },
   {
     task: "T10",

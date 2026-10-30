@@ -65,7 +65,13 @@ The Studio is at `/studio`, with Google or Microsoft single sign-on. Menus are o
 📧 Emails                 (confirmation, reminder, cancellation, inquiry copy per language)
 🔎 SEO & redirects        (redirects, default SEO, sitemap exclusions)
 ⚙️ Settings               (navigation, footer, contact details, social, cookie banner text, UI labels)
-📋 Bookings               (custom tool: bookings list, today's manifest, inquiries)
+✉️ Enquiries              (New, In progress, All; "Create journey" on an enquiry)
+📋 Operations             (journeys, ADR-019)
+   ├─ Departing soon       (next 30 days, not cancelled; soonest first)
+   ├─ Upcoming journeys
+   ├─ Past journeys
+   └─ All journeys         (each journey: Edit + Manifest tab: print / PDF, travellers CSV, WhatsApp text)
+📋 Bookings               (option behind Q-B6: custom tool with bookings list and per-slot manifest)
 ❓ Help                   (how-to guides, videos, "Request a change", support contact)
 ```
 
@@ -95,11 +101,12 @@ The Studio is at `/studio`, with Google or Microsoft single sign-on. Menus are o
 | T16 | Add a tracking pixel (Meta, LinkedIn, TikTok) | Google Tag Manager | Consent Mode v2 enforced; performance budget; quarterly tag audit |
 | T17 | Feature shop products in a guide | Studio → guide → Product rail block | Product picker from synced Shopify catalogue |
 | T18 | Add or edit a shop product | Shopify admin | Standard Shopify validation; auto-syncs to the site |
-| T19 | View today's bookings / print manifest | Studio → Bookings | Read-only for the Marketer role unless Ops |
+| T19 | View today's bookings / print manifest (slot manifest: option behind Q-B6; for journeys see T24) | Studio → Bookings | Read-only for the Marketer role unless Ops |
 | T20 | Cancel & refund a booking | Studio → Bookings | Policy-based refund suggested; confirmation step; audit log |
 | T21 | Undo a mistake | Any document → History → Restore | Full revision history |
 | T22 | Check performance | Studio → Dashboard (or GA4 / Looker Studio link) | Read-only |
 | T23 | Request a new feature or fix | Studio → Help → "Request a change" | Goes to the maintainer pipeline (§7) |
+| T24 | Prepare and print a journey manifest | Studio → Operations → journey → Manifest tab (from an enquiry: ⋮ → Create journey) | Readiness checks list what is missing; "Include internal notes" off for supplier copies; deleting an upcoming journey asks for confirmation and suggests Cancelled; never shown on the website |
 
 ---
 
@@ -196,7 +203,7 @@ The marketer performs these tasks **unaided** on the staging environment, using 
 | 14 | Edit the booking confirmation email intro and send a test | 5 min |
 | 15 | Feature 3 shop products in a guide | 5 min |
 | 16 | Add a product in Shopify and see it on the site | 10 min |
-| 17 | Find today's bookings and export the manifest | 3 min |
+| 17 | Open the next departing journey, fix one readiness issue, print the supplier manifest (internal notes off) and download the travellers CSV | 3 min |
 | 18 | Cancel and refund a test booking per policy ⚠️ booking-safety | 5 min |
 | 19 | Restore a previous version of a page | 3 min |
 | 20 | Submit a change request via Help | 5 min |

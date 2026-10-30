@@ -106,7 +106,8 @@ travel-latvia/
 │   │   ├── payments/             # Stripe client, session builder, webhook handlers
 │   │   ├── shop/                 # Shopify client, queries, cart
 │   │   ├── content/              # Sanity client, GROQ queries, typed results
-│   │   ├── inquiries/
+│   │   ├── enquiries/            # enquiry validation + store (ADR-017)
+│   │   ├── operations/           # journey manifest: readiness, CSV, WhatsApp (ADR-019)
 │   │   └── email/                # React Email templates + send()
 │   ├── components/               # ui/ (shadcn), blocks/ (page sections), booking/, shop/
 │   ├── lib/                      # env (zod), logger, money, dates (Europe/Riga), auth
@@ -116,7 +117,8 @@ travel-latvia/
 │   ├── schemaTypes/              # documents/, objects/, singletons/, blocks/
 │   ├── structure.ts              # task-based desk structure (08 §3)
 │   ├── templates/                # "New from template" initial values
-│   ├── tools/bookings/           # custom Studio tool: bookings, manifests, inquiries
+│   ├── tools/operations/         # journey manifest view + printable sheet (ADR-019)
+│   ├── tools/bookings/           # custom Studio tool: bookings, slot manifests (option, Q-B6)
 │   ├── tools/dashboard/          # KPIs + to-do widgets
 │   ├── actions/                  # guarded publish/delete actions (booking-safe)
 │   └── help/                     # in-Studio handbook content
@@ -454,5 +456,6 @@ Client events fire only after consent. Server events are first-party and contain
 | **ADR-016** | **Scope pivot to the Baltique briefing (docs/10).** The client is a boutique agency selling bespoke journeys and hunting trips through personal enquiry. v1 = five brochure pages, guides, and an enquiry pipeline; no online booking, no shop, no experience catalogue. Bookings (Phase 4), shop (Phase 3) and Postgres stay in the roadmap as **options**, not commitments, pending Q-B6/Q-B2. | Accepted (from briefing) |
 | **ADR-017** | **Enquiries stored in Sanity**, not Postgres: an `enquiry` document per submission, listed under Enquiries in the Studio, with status and notes; owner notified by email (Resend REST). Keeps one workspace for a solo marketer at a few enquiries per week. Revisit if volume or a CRM (Q-D4) warrants it. | Accepted |
 | **ADR-018** | **Demo content mode.** Without a Sanity project the site serves the seed documents (mockup copy) through groq-js, so previews show the real design; the same seed exports to NDJSON for the first import. Off automatically once `NEXT_PUBLIC_SANITY_PROJECT_ID` is set. | Accepted |
+| **ADR-019** | **Journey manifest in Sanity, re-scoping OPS-03 (docs/11).** Baltique sells multi-day journeys, not slots, so the manifest is a per-journey operations sheet: a `trip` ("Journey") document in Sanity (same pattern as enquiries, ADR-017) with travellers, day by day, supplier contacts, checklist and internal notes; an **Operations** menu (Departing soon, Upcoming, Past, All); **Create journey** on an enquiry; and a **Manifest** tab that prints / saves as PDF in the browser, exports travellers to CSV and copies a WhatsApp summary. No Postgres, no `/api/studio/*`, no server-rendered PDF. Readiness rules and exports live in `src/modules/operations/manifest.ts` over a plain `Manifest` model, so a **per-slot manifest over Postgres bookings stays an option behind Q-B6**: a new source for the same sheet. Journey and enquiry data are never queried by the website; PII limited to what a supplier needs (no passport numbers or dates of birth). | Accepted |
 
 **Payment gateway caveat:** confirm which payment providers Shopify offers the client's legal entity. If Shopify Payments isn't available in its country, a third-party gateway adds Shopify transaction fees (Q-E3).

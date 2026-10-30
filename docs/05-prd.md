@@ -153,7 +153,7 @@ See [Design §4](./04-design.md#4-primary-user-flows).
 |---|---|---|
 | OPS-01 | Bookings back-office delivered as a **Bookings tool inside Sanity Studio** (single workspace, ADR-010), role-based. Fallback: `/admin` with the same SSO, linked from the Studio. | P0 |
 | OPS-02 | Bookings list with search/filter (date, experience, status) and booking detail view. | P0 |
-| OPS-03 | Daily manifest per slot (participants, contact details, notes) exportable to CSV/PDF. | P0 |
+| OPS-03 | Daily manifest per slot (participants, contact details, notes) exportable to CSV/PDF. *Re-scoped by ADR-019 (docs/11):* v1 ships a **journey manifest** in Sanity: one operations sheet per journey (travellers, day by day, suppliers, checklist, readiness checks) with print / Save as PDF, travellers CSV and a WhatsApp summary. The per-slot manifest over Postgres bookings stays an option behind Q-B6. | P0 |
 | OPS-04 | Manage schedules, capacity overrides and blackout dates in Studio → Availability, with booking-safe guardrails (MKT-09). | P0 |
 | OPS-05 | Create manual/offline bookings (phone, walk-in) that consume inventory. | P0 |
 | OPS-06 | Cancel booking and refund (full/partial) with an audit log entry. | P0 |
