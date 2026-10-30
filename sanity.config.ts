@@ -6,7 +6,7 @@ import { structureTool } from "sanity/structure";
 import { withAutomaticRedirect } from "./sanity/actions/publishWithRedirect";
 import { apiVersion, dataset, projectId, studioBasePath } from "./sanity/env";
 import { schemaTypes, singletonTypes, systemTypes } from "./sanity/schemaTypes";
-import { structure } from "./sanity/structure";
+import { defaultDocumentNode, structure } from "./sanity/structure";
 import { helpTool } from "./sanity/tools/HelpTool";
 
 const typesWithAddress = new Set(["page", "region", "place", "experience", "guide"]);
@@ -38,7 +38,7 @@ export default defineConfig({
         ? items.filter((i) => !singletonTypes.has(i.templateId) && !systemTypes.has(i.templateId))
         : items,
   },
-  plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],
+  plugins: [structureTool({ structure, defaultDocumentNode }), visionTool({ defaultApiVersion: apiVersion })],
   tools: (prev, { currentUser }) => {
     const isAdmin = currentUser?.roles.some((r) => r.name === "administrator");
     // Vision (query playground) is for developers only; everyone gets Help.
