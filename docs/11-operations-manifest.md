@@ -145,7 +145,7 @@ Document action **Create journey** on `enquiry` (`sanity/actions/createJourney.t
 
 ### 6.3 Delete guard
 
-For `trip`, wrap the delete action: when `status ≠ cancelled` and `startDate ≥ today`, `onHandle` opens a confirm dialog: *"This journey departs on 14 Oct 2027 with 4 travellers. Delete it anyway? Setting the status to Cancelled keeps the record."* with **Delete** and **Keep**. Otherwise delete behaves as usual.
+For `trip`, wrap the delete action: when `status ≠ cancelled` and `startDate ≥ today`, `onHandle` opens a confirm dialog: *"This journey departs on 14 Oct 2027 with 4 travellers. Delete it anyway? Setting the status to Cancelled keeps the record."* with **Delete** and **Keep**. Delete removes the document directly: there is no second, generic confirmation. Otherwise delete behaves as usual.
 
 ---
 
@@ -157,7 +157,7 @@ Toolbar: **Print / Save as PDF** · **Download travellers (CSV)** · **Copy for 
 
 Sheet, top to bottom:
 
-1. **Header**: journey name · kind badge · `Mon 14 Oct – Sat 19 Oct 2027 (6 days)` · status.
+1. **Header**: journey name · kind badge · trip type (when set) · `Thu 14 Oct – Tue 19 Oct 2027 (6 days)` · status.
 2. **Readiness**: green "Ready to go" or an amber list of issues (hidden when internal notes are off, since suppliers don't need it).
 3. **Lead contact**: name · phone · email.
 4. **Travellers** table: #, Name, Adult/Child, Dietary, Medical, Notes, and for hunting trips Licence ✓/–, Insurance ✓/–. Empty state: "No travellers yet. Add them in the Edit tab."
@@ -187,7 +187,7 @@ export type ReadinessIssue = { code: string; message: string };
 
 export function toManifest(doc: unknown): Manifest            // tolerant of partial Sanity docs; sorts itinerary; defaults arrays
 export function tripDays(startDate: string, endDate: string): string[]
-export function formatDateRange(startDate: string, endDate: string, locale?: string): string   // "Mon 14 Oct – Sat 19 Oct 2027 (6 days)"
+export function formatDateRange(startDate: string, endDate: string, locale?: string): string   // "Thu 14 Oct – Tue 19 Oct 2027 (6 days)"
 export function readiness(m: Manifest, today: string): ReadinessIssue[]
 export function travellersCsv(m: Manifest): string             // UTF-8 BOM, RFC 4180 quoting, CRLF
 export function whatsappSummary(m: Manifest): string

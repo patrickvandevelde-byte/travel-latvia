@@ -1,17 +1,19 @@
 import { useState } from "react";
-import type { DocumentActionComponent } from "sanity";
+import { useDocumentOperation, type DocumentActionComponent } from "sanity";
 import { rigaDateKey } from "../../src/lib/dates";
 import { deleteWarning } from "../../src/modules/operations/journey";
 
 /**
  * Wraps Delete on journeys (OPS-03, docs/11 §6.3): deleting a journey that
  * has not departed first shows its dates and number of travellers and
- * suggests Cancelled instead. Otherwise Delete behaves as usual.
+ * suggests Cancelled instead. One confirmation only: on Delete the document
+ * is removed straight away. Otherwise Delete behaves as usual.
  */
 export function withTripDeleteGuard(original: DocumentActionComponent): DocumentActionComponent {
   const Guarded: DocumentActionComponent = (props) => {
     const result = original(props);
     const [confirming, setConfirming] = useState(false);
+    const { delete: del } = useDocumentOperation(props.id, props.type);
     if (!result) return result;
 
     const warning = deleteWarning(props.draft ?? props.published, rigaDateKey(new Date()));
@@ -29,7 +31,8 @@ export function withTripDeleteGuard(original: DocumentActionComponent): Document
             cancelButtonText: "Keep",
             onConfirm: () => {
               setConfirming(false);
-              result.onHandle?.();
+              del.execute();
+              props.onComplete();
             },
             onCancel: () => setConfirming(false),
           }

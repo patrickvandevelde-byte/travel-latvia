@@ -11,6 +11,7 @@ const manifest = (overrides: Partial<Manifest> = {}): Manifest => ({
     title: "Jansen family — autumn in Vidzeme",
     status: "confirmed",
     kind: "journey",
+    tripType: "Nature & hiking",
     startDate: "2027-10-14",
     endDate: "2027-10-16",
     lead: { name: "Anna Jansen", phone: "+31 6 1234 5678", email: "anna@example.com" },
@@ -43,6 +44,7 @@ describe("ManifestSheet", () => {
     const html = render(manifest());
     expect(html).toContain("<h1>Jansen family — autumn in Vidzeme</h1>");
     expect(html).toContain("Bespoke journey");
+    expect(html).toContain("Nature &amp; hiking");
     expect(html).toContain("Thu 14 Oct – Sat 16 Oct 2027 (3 days)");
     expect(html).toContain("Confirmed");
     expect(html).toContain("+31 6 1234 5678");

@@ -187,6 +187,7 @@ export function ManifestSheet({
         <h1>{m.title}</h1>
         <div className="tlm-meta">
           <span className="tlm-badge">{TRIP_KIND_LABELS[m.kind]}</span>
+          {m.tripType ? <span>{m.tripType}</span> : null}
           <span>{formatDateRange(m.startDate, m.endDate)}</span>
           <span className="tlm-badge">{TRIP_STATUS_LABELS[m.status]}</span>
         </div>
